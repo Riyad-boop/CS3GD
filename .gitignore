@@ -70,3 +70,12 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+
+# Firebase Generated files
+google-services.json
+/[Aa]ssets/[Ee]xternal[Dd]ependencyManager/*
+/[Aa]ssets/[Ee]ditor\ [Dd]efault\ [Rr]esources/*
+/[Aa]ssets/[Ff]irebase*
+Assets/ExternalDependencyManager.meta
+Assets/Editor Default Resources.meta
