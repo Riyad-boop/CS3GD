@@ -5,14 +5,18 @@ using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
+    private Animator animator;
     NavMeshAgent agent;
     public Transform[] waypoints;
     int waypointIndex;
-    Vector3 target;
+    public Vector3 target;
+    private int VelocityHash;
 
     // Start is called before the first frame update
     void Start()
     {
+        VelocityHash = Animator.StringToHash("Velocity");
+        animator = GetComponent<Animator>();
         agent  = GetComponent<NavMeshAgent>();
         updatePatrolDestination();
     }
@@ -21,11 +25,13 @@ public class EnemyMovement : MonoBehaviour
     void Update()
     {
         // check if ai is at the waypoint
-        if(Vector3.Distance(transform.position, target) < 1)
+        if(Vector3.Distance(transform.position, target) < 2f)
         {
             IterateThroughWaypoints();
             updatePatrolDestination();
-        }   
+        }
+
+        animator.SetFloat(VelocityHash, agent.velocity.magnitude);
 
     }
 
