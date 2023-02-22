@@ -18,10 +18,9 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField]
     private bool attackCooldown = false;
 
-    [SerializeField]
-    private bool chasePlayer = false;
-    [SerializeField]
-    private Transform playerPos;
+
+    public bool chasePlayer = false;
+    public Vector3 playerPos;
 
 
     // Start is called before the first frame update
@@ -43,7 +42,7 @@ public class EnemyMovement : MonoBehaviour
         if (chasePlayer)
         {
             agent.speed = speedFactor + 3;
-            agent.SetDestination(playerPos.position);
+            agent.SetDestination(playerPos);
             animator.SetFloat(VelocityHash, agent.velocity.magnitude);
             AttackPlayer();
         }
@@ -57,27 +56,19 @@ public class EnemyMovement : MonoBehaviour
 
     }
 
+    //TODO apply damage to player 
 
     private void AttackPlayer()
     {
         if (!attackCooldown)
         {
-            if (Vector3.Distance(transform.position, playerPos.position) < 2f)
+            if (Vector3.Distance(transform.position, playerPos) < 2f)
             {
                 StartCoroutine(Attack());
                 attackCooldown = true;
             }
         }
-       // else
-       // {
-       //    StartCoroutine(Attack());       
-       // }     
     }
-
-  // private void Attacks()
-  // {
-  //
-  // }
 
     private IEnumerator Attack()
     {
