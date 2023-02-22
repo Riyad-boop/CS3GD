@@ -50,7 +50,12 @@ public class EnemyBehaviourManager : MonoBehaviour
         if (chasePlayer)
         {
             agent.speed = speedFactor + 3;
-            agent.SetDestination(targetPos);
+
+            //only update the target pos if it is out of the attack range
+            if (Vector3.Distance(transform.position, targetPos) > 1f)
+            {
+                agent.SetDestination(targetPos);
+            }
             animator.SetFloat(VelocityHash, agent.velocity.magnitude);
             AttackPlayer();
         }
@@ -59,8 +64,6 @@ public class EnemyBehaviourManager : MonoBehaviour
             agent.speed = speedFactor;
             Patrolling();
         }
-
-        
 
     }
 
