@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class EnemyBehaviourManager : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class EnemyBehaviourManager : MonoBehaviour
     public Transform[] waypoints;
     private int waypointIndex;
     private Vector3 target;
+
+    public LayerMask playerMask;
+    public float hitboxRadius = 1.0f;
 
     [SerializeField]
     private float speedFactor = 0.5f;
@@ -113,8 +117,29 @@ public class EnemyBehaviourManager : MonoBehaviour
     private IEnumerator Attack()
     {
         animator.SetTrigger("Attack");
-        yield return new WaitForSeconds(3);
+        //wait one second for animation to play then call the damage player function 
+        yield return new WaitForSeconds(1);
+        DamagePlayer(5);
+        yield return new WaitForSeconds(2);
         attackCooldown= false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        //draw hitbox
+        Gizmos.DrawWireSphere(transform.position, hitboxRadius);
+    }
+
+    public void DamagePlayer(int damage)
+    {
+        //check that the player is in range of the enemy
+        Collider[] playersinRange = Physics.OverlapSphere(transform.position, hitboxRadius, playerMask);
+
+        if (playersinRange.Length > 0)
+        {
+            PlayerBehaviour player =  playersinRange[0].GetComponent<PlayerBehaviour>();
+            player.damagePlayer(damage);
+        }
     }
 
 

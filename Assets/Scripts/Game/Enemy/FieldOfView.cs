@@ -48,7 +48,6 @@ public class FieldOfView : MonoBehaviour
         {
             for (int i = 0; i < playerinRange.Length; i++)
             {
-
                 Transform player = playerinRange[i].transform;
                 Vector3 directionToPlayer = (player.position - transform.position).normalized;
 
@@ -65,8 +64,7 @@ public class FieldOfView : MonoBehaviour
                         if (Vector3.Distance(transform.position, player.position) < radius)
                         {
                             playerVisibility = true;             //  The player has been seeing by the enemy and then the enemy starts to chasing the player
-                            
-                            
+
                             enemyBehaviour.targetPos = player.position;
                             enemyBehaviour.chasePlayer = true;
                             setVisionConeColour(new Color(0.9f, 0, 0, 0.4f));
