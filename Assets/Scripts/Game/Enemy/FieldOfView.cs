@@ -46,72 +46,82 @@ public class FieldOfView : MonoBehaviour
 
         if (playerinRange.Length > 0 )
         {
-            for (int i = 0; i < playerinRange.Length; i++)
+            Transform player = playerinRange[0].transform;
+            Vector3 directionToPlayer = (player.position - transform.position).normalized;
+
+            //check the direction to player is within the fov angle
+            if (Vector3.Angle(transform.forward, directionToPlayer) < angle / 2)
             {
-                Transform player = playerinRange[i].transform;
-                Vector3 directionToPlayer = (player.position - transform.position).normalized;
+                //  Distance of the enemy and the player
+                float dstToPlayer = Vector3.Distance(transform.position, player.position);
 
-                //check the direction to player is within the fov angle
-                if (Vector3.Angle(transform.forward, directionToPlayer) < angle / 2)
+                //check that the player is not behind any obstructions
+                if (!Physics.Raycast(transform.position, directionToPlayer, dstToPlayer, obstructionsMask))
                 {
-                    //  Distance of the enemy and the player
-                    float dstToPlayer = Vector3.Distance(transform.position, player.position);
-
-                    //check that the player is not behind any obstructions
-                    if (!Physics.Raycast(transform.position, directionToPlayer, dstToPlayer, obstructionsMask))
+                    // check that the player target is within the view radius
+                    if (Vector3.Distance(transform.position, player.position) < radius)
                     {
-                        // check that the player target is within the view radius
-                        if (Vector3.Distance(transform.position, player.position) < radius)
-                        {
-                            playerVisibility = true;             //  The player has been seeing by the enemy and then the enemy starts to chasing the player
+                        playerVisibility = true; //  The player has been seeing by the enemy and then the enemy starts to chasing the player
 
-                            enemyBehaviour.targetPos = player.position;
-                            enemyBehaviour.chasePlayer = true;
-                            setVisionConeColour(new Color(0.9f, 0, 0, 0.4f));
+                        enemyBehaviour.target = player.position;
+                        enemyBehaviour.chasePlayer = true;
+                        setVisionConeColour(new Color(0.9f, 0, 0, 0.4f));
 
-                            if(enemyBehaviour.enemyType == 0)
-                            {
-                               chaseMode = true;
-                            }
-                            else if(enemyBehaviour.enemyType == 1)
-                            {
-                                enemyBehaviour.Scream();
-                            }
-                            
-                            //StopCoroutine(stopChaseMode());
-                            StopAllCoroutines();
-                        }
-                    }
-                    else
-                    {
-                        playerVisibility = false;
-                        if (chaseMode)
+                        if(enemyBehaviour.enemyType == 0)
                         {
-                            StartCoroutine(stopChaseMode());
+                           chaseMode = true;
                         }
-                       
+                        else if(enemyBehaviour.enemyType == 1)
+                        {
+                            enemyBehaviour.Scream();
+                        }
+                        
+                        //StopCoroutine(stopChaseMode());
+                        StopAllCoroutines();
                     }
                 }
                 else
                 {
-                    playerVisibility = false;
-                    if (chaseMode)
-                    {
-                        StartCoroutine(stopChaseMode());
-                    }
+                    stopChasing();
                 }
+            }
+            else
+            {
+                stopChasing();
             }
         }
         else if (playerVisibility)
+        {  
+            stopChasing();
+        }
+        
+    }
+
+    private void stopChasing()
+    {
+        playerVisibility = false;
+
+        // if the entity is currently in chase target mode
+        if (chaseMode)
         {
-            playerVisibility = false;
-           
-            if (chaseMode)
+            //check if player is nearby (70% of radius).
+            Collider[] playersinRange = Physics.OverlapSphere(transform.position, radius * 0.7f, playerMask);
+
+            // if player is still nearby then continue the chase by getting the player's position, rather than relying on visibility.
+            if (playersinRange.Length > 0)
             {
+                Transform player = playersinRange[0].transform;
+                enemyBehaviour.target = player.position;
+                enemyBehaviour.chasePlayer = true;
+                setVisionConeColour(new Color(0.9f, 0, 0, 0.4f));
+            }
+            //else stop chase if player is far enough away
+            else
+            {
+                setVisionConeColour(new Color(0.7f, 0.7f, 0.7f, 0.4f));
                 StartCoroutine(stopChaseMode());
             }
         }
-        
     }
 
     private IEnumerator stopChaseMode()
@@ -124,9 +134,9 @@ public class FieldOfView : MonoBehaviour
         //Then go back to patrol mode (if swarm mode is not on)
         if (!playerVisibility)
         {
-            enemyBehaviour.targetPos = Vector3.zero;
+            enemyBehaviour.target = Vector3.zero;
             enemyBehaviour.chasePlayer = false;
-            setVisionConeColour(new Color(0.7f, 0.7f, 0.7f, 0.4f));
+           
         }
     }
 

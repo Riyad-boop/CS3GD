@@ -6,27 +6,30 @@ using UnityEngine.UI;
 
 public class EnemyBehaviourManager : MonoBehaviour
 {
+    /// <summary>
+    /// movement variables
+    /// </summary>
     private Animator animator;
     private NavMeshAgent agent;
     public Transform[] waypoints;
-    private int waypointIndex;
-    private Vector3 target;
-
-    public LayerMask playerMask;
-    public float hitboxRadius = 1.0f;
-
-    [SerializeField]
+    public Vector3 target;
     private float speedFactor = 0.5f;
-    private int VelocityHash;
+    private EnemyMovement movement;
 
+    /// <summary>
+    /// attack variables
+    /// </summary>
     [SerializeField]
-    private bool attackCooldown = false;
+    private float hitboxRadius = 1f;
+    [SerializeField]
+    public LayerMask playerMask;
+    private EnemyCombat combat;
+
 
     public bool swarmMode = false;
     private bool screamCooldown = false;
 
     public bool chasePlayer = false;
-    public Vector3 targetPos;
     public Transform player;
 
     public int enemyType = 0;
@@ -34,10 +37,12 @@ public class EnemyBehaviourManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        VelocityHash = Animator.StringToHash("Velocity");
         animator = GetComponent<Animator>();
         agent  = GetComponent<NavMeshAgent>();
-        updatePatrolDestination();
+
+        combat = GetComponent<EnemyCombat>().Initialiser(animator, playerMask, 1f);
+        movement = GetComponent<EnemyMovement>().Initialiser(agent, animator, waypoints);
+        movement.updatePatrolDestination();
 
         //modify the speed of all instances of this agent
         agent.speed = speedFactor;
@@ -48,25 +53,27 @@ public class EnemyBehaviourManager : MonoBehaviour
     {
         if(swarmMode)
         {
-            targetPos = player.position;
+            target = player.position;
         }
 
         if (chasePlayer)
         {
             agent.speed = speedFactor + 3;
 
-            //only update the target pos if it is out of the attack range
-            if (Vector3.Distance(transform.position, targetPos) > 1f)
-            {
-                agent.SetDestination(targetPos);
-            }
-            animator.SetFloat(VelocityHash, agent.velocity.magnitude);
-            AttackPlayer();
+            ////only update the target pos if it is out of the attack range
+            //if (Vector3.Distance(transform.position, target) > 1f)
+            //{
+            //    agent.SetDestination(target);
+            //}
+            //animator.SetFloat(VelocityHash, agent.velocity.magnitude);
+            movement.ChaseTarget(target);
+            combat.AttackPlayer(target, player.position);
+      
         }
         else
         {
             agent.speed = speedFactor;
-            Patrolling();
+            movement.Patrolling();
         }
 
     }
@@ -96,83 +103,36 @@ public class EnemyBehaviourManager : MonoBehaviour
         agent.isStopped = false;
     }
 
-
-    //TODO apply damage to player 
-
-    private void AttackPlayer()
-    {
-        if (!attackCooldown)
-        {
-            if (Vector3.Distance(transform.position, targetPos) < 2f)
-            {
-                if(Vector3.Distance(player.position, targetPos) < 2f)
-                {
-                    StartCoroutine(Attack());
-                    attackCooldown = true;
-                }   
-            }
-        }
-    }
-
-    private IEnumerator Attack()
-    {
-        animator.SetTrigger("Attack");
-        //wait one second for animation to play then call the damage player function 
-        yield return new WaitForSeconds(1);
-        DamagePlayer(5);
-        yield return new WaitForSeconds(2);
-        attackCooldown= false;
-    }
-
-    private void OnDrawGizmos()
-    {
-        //draw hitbox
-        Gizmos.DrawWireSphere(transform.position, hitboxRadius);
-    }
-
-    public void DamagePlayer(int damage)
-    {
-        //check that the player is in range of the enemy
-        Collider[] playersinRange = Physics.OverlapSphere(transform.position, hitboxRadius, playerMask);
-
-        if (playersinRange.Length > 0)
-        {
-            PlayerBehaviour player =  playersinRange[0].GetComponent<PlayerBehaviour>();
-            player.damagePlayer(damage);
-        }
-    }
-
-
-    private void Patrolling()
-    {
-        updatePatrolDestination();
-
-        // check if ai is at the waypoint and iterate to the next one if current waypoint was met
-        if (Vector3.Distance(transform.position, target) < 2f)
-        {
-            IterateThroughWaypoints();
-        }
-
-        animator.SetFloat(VelocityHash, agent.velocity.magnitude);
-
-    }
-
-
-    private void updatePatrolDestination()
-    {
-        target = waypoints[waypointIndex].position;
-        agent.SetDestination(target);
-    }
-
-
-    private void IterateThroughWaypoints()
-    {
-        waypointIndex++;
-
-        // reset waypoint index
-        if(waypointIndex >= waypoints.Length)
-        {
-            waypointIndex = 0;
-        }
-    }
+   // private void Patrolling()
+   // {
+   //     updatePatrolDestination();
+   //
+   //     // check if ai is at the waypoint and iterate to the next one if current waypoint was met
+   //     if (Vector3.Distance(transform.position, target) < 2f)
+   //     {
+   //         IterateThroughWaypoints();
+   //     }
+   //
+   //     animator.SetFloat(VelocityHash, agent.velocity.magnitude);
+   //
+   // }
+   //
+   //
+   // private void updatePatrolDestination()
+   // {
+   //     target = waypoints[waypointIndex].position;
+   //     agent.SetDestination(target);
+   // }
+   //
+   //
+   // private void IterateThroughWaypoints()
+   // {
+   //     waypointIndex++;
+   //
+   //     // reset waypoint index
+   //     if(waypointIndex >= waypoints.Length)
+   //     {
+   //         waypointIndex = 0;
+   //     }
+   // }
 }

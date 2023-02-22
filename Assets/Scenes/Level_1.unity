@@ -2044,12 +2044,10 @@ MonoBehaviour:
   - {fileID: 1320266356}
   - {fileID: 1910720618}
   - {fileID: 980334526}
+  hitboxRadius: 1
   playerMask:
     serializedVersion: 2
     m_Bits: 64
-  hitboxRadius: 1
-  speedFactor: 0.5
-  attackCooldown: 0
   swarmMode: 0
   chasePlayer: 0
   targetPos: {x: 0, y: 0, z: 0}
@@ -4761,6 +4759,7 @@ GameObject:
   - component: {fileID: 896129884}
   - component: {fileID: 896129883}
   - component: {fileID: 896129882}
+  - component: {fileID: 896129886}
   - component: {fileID: 896129881}
   m_Layer: 0
   m_Name: Zombie_Father_Male_01 (1)
@@ -4808,12 +4807,10 @@ MonoBehaviour:
   - {fileID: 1320266356}
   - {fileID: 1910720618}
   - {fileID: 980334526}
+  hitboxRadius: 1
   playerMask:
     serializedVersion: 2
     m_Bits: 64
-  hitboxRadius: 1
-  speedFactor: 0.5
-  attackCooldown: 0
   swarmMode: 0
   chasePlayer: 0
   targetPos: {x: 0, y: 0, z: 0}
@@ -4918,6 +4915,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &896129886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896129880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12a249f1b8ee5db43ab0dd6f4281210e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitboxRadius: 1
 --- !u!1 &924449739
 GameObject:
   m_ObjectHideFlags: 0
@@ -11062,6 +11072,7 @@ GameObject:
   - component: {fileID: 95997832397374312}
   - component: {fileID: 492089190}
   - component: {fileID: 492089188}
+  - component: {fileID: 1686375839967849}
   - component: {fileID: 492089189}
   m_Layer: 0
   m_Name: Zombie_Father_Male_01
@@ -11070,6 +11081,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1686375839967849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1686375839967848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12a249f1b8ee5db43ab0dd6f4281210e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitboxRadius: 1
 --- !u!1 &1691776418251752
 GameObject:
   m_ObjectHideFlags: 0
@@ -19407,7 +19431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7706868964866383530}
   - component: {fileID: 7718173960677839070}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Character_Female_NoFace_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19520,7 +19544,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7703995655163822070}
   - component: {fileID: 7715236519632763070}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Character_Female_Face_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19649,7 +19673,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7707312442056952112}
   - component: {fileID: 7715325605498589220}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Character_Dummy_Female_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19746,7 +19770,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7703997425464529184}
   - component: {fileID: 7715573694162082048}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Character_Male_NoFace_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20263,7 +20287,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7706800175341558816}
   - component: {fileID: 7715689631209517754}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Character_Dummy_Male_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
