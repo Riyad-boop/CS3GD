@@ -23,14 +23,15 @@ public class FieldOfView : MonoBehaviour
     private Mesh VisionConeMesh;
     private MeshFilter VisionConeMeshFilter;
 
-    private EnemyMovement enemyBehaviour;
+    private EnemyBehaviourManager enemyBehaviour;
+    private bool chaseMode = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
         //playerRef = GameObject.FindGameObjectsWithTag()
-        enemyBehaviour = GetComponentInParent<EnemyMovement>();
+        enemyBehaviour = GetComponentInParent<EnemyBehaviourManager>();
         transform.AddComponent<MeshRenderer>().material = VisionConeMaterial;
         VisionConeMeshFilter = transform.AddComponent<MeshFilter>();
         VisionConeMesh = new Mesh();
@@ -57,50 +58,81 @@ public class FieldOfView : MonoBehaviour
                     //  Distance of the enemy and the player
                     float dstToPlayer = Vector3.Distance(transform.position, player.position);
 
-                    //check taht the player is not behind any obstructions
+                    //check that the player is not behind any obstructions
                     if (!Physics.Raycast(transform.position, directionToPlayer, dstToPlayer, obstructionsMask))
                     {
-                        playerVisibility = true;             //  The player has been seeing by the enemy and then the enemy starts to chasing the player
-                        enemyBehaviour.playerPos = player.position;
-                        enemyBehaviour.chasePlayer = true;
-                        setVisionConeColour(new Color(0.9f, 0, 0, 0.4f));
-                        //chasePlayer = false;                 //  Change the state to chasing the player
+                        // check that the player target is within the view radius
+                        if (Vector3.Distance(transform.position, player.position) < radius)
+                        {
+                            playerVisibility = true;             //  The player has been seeing by the enemy and then the enemy starts to chasing the player
+                            
+                            
+                            enemyBehaviour.targetPos = player.position;
+                            enemyBehaviour.chasePlayer = true;
+                            setVisionConeColour(new Color(0.9f, 0, 0, 0.4f));
+
+                            if(enemyBehaviour.enemyType == 0)
+                            {
+                               chaseMode = true;
+                            }
+                            else if(enemyBehaviour.enemyType == 1)
+                            {
+                                enemyBehaviour.Scream();
+                            }
+                            
+                            //StopCoroutine(stopChaseMode());
+                            StopAllCoroutines();
+                        }
                     }
                     else
                     {
                         playerVisibility = false;
-                        enemyBehaviour.playerPos = Vector3.zero;
-                        enemyBehaviour.chasePlayer = false;
-                        setVisionConeColour(new Color(0.7f, 0.7f, 0.7f, 0.4f));
+                        if (chaseMode)
+                        {
+                            StartCoroutine(stopChaseMode());
+                        }
+                       
                     }
                 }
                 else
                 {
                     playerVisibility = false;
-                    enemyBehaviour.playerPos = Vector3.zero;
-                    enemyBehaviour.chasePlayer = false;
-                    setVisionConeColour(new Color(0.7f, 0.7f, 0.7f, 0.4f));
-                }
-
-                // if the player is outside the view radius then the player can not be seen
-                if (Vector3.Distance(transform.position, player.position) > radius)
-                {
-                    playerVisibility = false;
-                    enemyBehaviour.playerPos = Vector3.zero;
-                    enemyBehaviour.chasePlayer = false;
-                    setVisionConeColour(new Color(0.7f, 0.7f, 0.7f, 0.4f));
+                    if (chaseMode)
+                    {
+                        StartCoroutine(stopChaseMode());
+                    }
                 }
             }
         }
         else if (playerVisibility)
         {
-            enemyBehaviour.playerPos = Vector3.zero;
-            enemyBehaviour.chasePlayer = false;
             playerVisibility = false;
-            setVisionConeColour(new Color(0.7f, 0.7f, 0.7f, 0.4f));
+           
+            if (chaseMode)
+            {
+                StartCoroutine(stopChaseMode());
+            }
         }
         
     }
+
+    private IEnumerator stopChaseMode()
+    {
+        chaseMode= false;
+
+        //chase only for 5 seconds after visibility is lost
+        yield return new WaitForSeconds(5);
+
+        //Then go back to patrol mode (if swarm mode is not on)
+        if (!playerVisibility)
+        {
+            enemyBehaviour.targetPos = Vector3.zero;
+            enemyBehaviour.chasePlayer = false;
+            setVisionConeColour(new Color(0.7f, 0.7f, 0.7f, 0.4f));
+        }
+    }
+
+
 
     private void setVisionConeColour(Color colour)
     {
@@ -156,44 +188,55 @@ public class FieldOfView : MonoBehaviour
     }
 
 
-    private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)
-    {
-        angleInDegrees += eulerY;
-
-        return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
-    }
-
     // Update is called once per frame
     void Update()
     {
-        FOV();
-        DrawVisionCone();
-    }
-
-    private void OnDrawGizmos()
-    {
-        //ShowFOV();
-    }
-
-    private void ShowFOV()
-    {
-        // Gizmos.color = Color.black;
-        // Gizmos.DrawWireSphere(transform.position, radius);
-
-        Gizmos.color = Color.red;
-
-        Vector3 viewAngleLeft = DirectionFromAngle(transform.eulerAngles.y, -angle / 2);
-        Vector3 viewAngleRight = DirectionFromAngle(transform.eulerAngles.y, angle / 2);
-
-        Gizmos.DrawLine(transform.position, transform.position + viewAngleLeft * radius);
-        Gizmos.DrawLine(transform.position, transform.position + viewAngleRight * radius);
-
-        //draw a line to player if player is seen
-        if (playerVisibility)
+        // if swarm is disabled then show fov
+        if (!enemyBehaviour.swarmMode)
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, playerRef.transform.position);
+            FOV();
+            DrawVisionCone();
         }
+        //in swarm mode disable mesh renderer
+        else
+        {
+            GetComponent<MeshRenderer>().enabled = false;
+        }
+       
     }
+
+   //private void OnDrawGizmos()
+   //{
+   //    //ShowFOV();
+   //}
+   //
+   //
+   //private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)
+   //{
+   //    angleInDegrees += eulerY;
+   //
+   //    return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+   //}
+   //private void ShowFOV()
+   //{
+   //    // Gizmos.color = Color.black;
+   //    // Gizmos.DrawWireSphere(transform.position, radius);
+   //
+   //    Gizmos.color = Color.red;
+   //
+   //    Vector3 viewAngleLeft = DirectionFromAngle(transform.eulerAngles.y, -angle / 2);
+   //    Vector3 viewAngleRight = DirectionFromAngle(transform.eulerAngles.y, angle / 2);
+   //
+   //    Gizmos.DrawLine(transform.position, transform.position + viewAngleLeft * radius);
+   //    Gizmos.DrawLine(transform.position, transform.position + viewAngleRight * radius);
+   //
+   //    //draw a line to player if player is seen
+   //    if (playerVisibility)
+   //    {
+   //        Gizmos.color = Color.green;
+   //        Gizmos.DrawLine(transform.position, playerRef.transform.position);
+   //    }
+   //}
+
 
 }

@@ -770,8 +770,11 @@ MonoBehaviour:
   - {fileID: 980334526}
   speedFactor: 0.5
   attackCooldown: 0
+  swarmMode: 0
   chasePlayer: 0
-  playerPos: {x: 0, y: 0, z: 0}
+  targetPos: {x: 0, y: 0, z: 0}
+  player: {fileID: 7704513795659894654}
+  enemyType: 0
 --- !u!195 &492089189
 NavMeshAgent:
   m_ObjectHideFlags: 0

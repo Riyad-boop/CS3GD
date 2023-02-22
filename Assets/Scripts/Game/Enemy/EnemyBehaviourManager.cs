@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyBehaviourManager : MonoBehaviour
 {
     private Animator animator;
     private NavMeshAgent agent;
@@ -18,10 +18,14 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField]
     private bool attackCooldown = false;
 
+    public bool swarmMode = false;
+    private bool screamCooldown = false;
 
     public bool chasePlayer = false;
-    public Vector3 playerPos;
+    public Vector3 targetPos;
+    public Transform player;
 
+    public int enemyType = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -38,11 +42,15 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if 
+        if(swarmMode)
+        {
+            targetPos = player.position;
+        }
+
         if (chasePlayer)
         {
             agent.speed = speedFactor + 3;
-            agent.SetDestination(playerPos);
+            agent.SetDestination(targetPos);
             animator.SetFloat(VelocityHash, agent.velocity.magnitude);
             AttackPlayer();
         }
@@ -56,16 +64,45 @@ public class EnemyMovement : MonoBehaviour
 
     }
 
+    public void Scream()
+    {
+        //if swarm mode is not on then scream to alert nearby zombies
+        if (!swarmMode & !screamCooldown)
+        {
+            //stop the agent from moving 
+            agent.isStopped = true;
+
+            //execute animation and sound
+            StartCoroutine(ScreamingAlert());
+
+        }
+       
+    }
+
+    private IEnumerator ScreamingAlert()
+    {
+        animator.SetTrigger("Scream");
+        screamCooldown = true;
+        yield return new WaitForSeconds(3);
+        swarmMode = true;
+        screamCooldown = false;
+        agent.isStopped = false;
+    }
+
+
     //TODO apply damage to player 
 
     private void AttackPlayer()
     {
         if (!attackCooldown)
         {
-            if (Vector3.Distance(transform.position, playerPos) < 2f)
+            if (Vector3.Distance(transform.position, targetPos) < 2f)
             {
-                StartCoroutine(Attack());
-                attackCooldown = true;
+                if(Vector3.Distance(player.position, targetPos) < 2f)
+                {
+                    StartCoroutine(Attack());
+                    attackCooldown = true;
+                }   
             }
         }
     }
