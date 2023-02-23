@@ -12,23 +12,37 @@ public class EntityHealth : MonoBehaviour
     private Image spriteHealthBar;
     private Camera cam;
 
+    private Animator animator;
+    private CapsuleCollider capsuleCollider;
+
     private void Start()
     {
-        currentHealth = maxHealth;
         cam = Camera.main;
         setHealhBar();
+        animator = GetComponentInParent<Animator>();
+        capsuleCollider = GetComponentInParent<CapsuleCollider>();
     }
 
-    public void damageEntity(int damage)
+    public bool damageEntity(int damage)
     {
         currentHealth -= damage;
 
         setHealhBar();
 
-        if (currentHealth <= 0)
+        bool death = currentHealth <= 0;
+
+        if (death)
         {
-            Debug.Log("Death");
+            Death();
         }
+
+        return death;
+    }
+
+    public void Death()
+    {
+        animator.enabled= false;
+        capsuleCollider.enabled= false;
     }
 
     private void setHealhBar()

@@ -8,13 +8,14 @@ public class EnemyCombat : MonoBehaviour
     private bool attackCooldown = false;
     private Animator animator;
     private LayerMask targetMask;
+    private EnemyBehaviourManager parent;
 
-    public EnemyCombat Initialiser(Animator _anim, LayerMask _targetMask, float _hitboxRadius)
+    public EnemyCombat Initialiser(Animator _anim, LayerMask _targetMask, float _hitboxRadius, EnemyBehaviourManager _parent)
     {
         animator = _anim;
         targetMask = _targetMask;
         hitboxRadius = _hitboxRadius;
-
+        parent = _parent;
         return this;
     }
 
@@ -51,7 +52,12 @@ public class EnemyCombat : MonoBehaviour
         if (playersinRange.Length > 0)
         {
             EntityHealth player = playersinRange[0].GetComponentInChildren<EntityHealth>();
-            player.damageEntity(damage);
+            bool death = player.damageEntity(damage);
+            //change state
+            if (death)
+            {
+                parent.Victory();
+            }
         }
     }
 

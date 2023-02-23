@@ -25,7 +25,7 @@ public class EnemyBehaviourManager : MonoBehaviour
     public LayerMask playerMask;
     private EnemyCombat combat;
 
-
+  
     public bool swarmMode = false;
     private bool screamCooldown = false;
 
@@ -40,7 +40,7 @@ public class EnemyBehaviourManager : MonoBehaviour
         animator = GetComponent<Animator>();
         agent  = GetComponent<NavMeshAgent>();
 
-        combat = GetComponent<EnemyCombat>().Initialiser(animator, playerMask, 1f);
+        combat = GetComponent<EnemyCombat>().Initialiser(animator, playerMask, 1f, this);
         movement = GetComponent<EnemyMovement>().Initialiser(agent, animator, waypoints);
         movement.updatePatrolDestination();
 
@@ -59,13 +59,6 @@ public class EnemyBehaviourManager : MonoBehaviour
         if (chasePlayer)
         {
             agent.speed = speedFactor + 3;
-
-            ////only update the target pos if it is out of the attack range
-            //if (Vector3.Distance(transform.position, target) > 1f)
-            //{
-            //    agent.SetDestination(target);
-            //}
-            //animator.SetFloat(VelocityHash, agent.velocity.magnitude);
             movement.ChaseTarget(target);
             combat.AttackPlayer(target, player.position);
       
@@ -75,6 +68,18 @@ public class EnemyBehaviourManager : MonoBehaviour
             agent.speed = speedFactor;
             movement.Patrolling();
         }
+
+    }
+
+    public void Victory()
+    {
+        //disable fov
+        GetComponentInChildren<FieldOfView>().gameObject.SetActive(false);
+        chasePlayer= false;
+        swarmMode= false;
+
+        //stop the agent from moving 
+        agent.isStopped = true;
 
     }
 
