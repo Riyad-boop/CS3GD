@@ -213,38 +213,36 @@ public class FieldOfView : MonoBehaviour
        
     }
 
-   //private void OnDrawGizmos()
-   //{
-   //    //ShowFOV();
-   //}
-   //
-   //
-   //private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)
-   //{
-   //    angleInDegrees += eulerY;
-   //
-   //    return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
-   //}
-   //private void ShowFOV()
-   //{
-   //    // Gizmos.color = Color.black;
-   //    // Gizmos.DrawWireSphere(transform.position, radius);
-   //
-   //    Gizmos.color = Color.red;
-   //
-   //    Vector3 viewAngleLeft = DirectionFromAngle(transform.eulerAngles.y, -angle / 2);
-   //    Vector3 viewAngleRight = DirectionFromAngle(transform.eulerAngles.y, angle / 2);
-   //
-   //    Gizmos.DrawLine(transform.position, transform.position + viewAngleLeft * radius);
-   //    Gizmos.DrawLine(transform.position, transform.position + viewAngleRight * radius);
-   //
-   //    //draw a line to player if player is seen
-   //    if (playerVisibility)
-   //    {
-   //        Gizmos.color = Color.green;
-   //        Gizmos.DrawLine(transform.position, playerRef.transform.position);
-   //    }
-   //}
-
-
+   private void OnDrawGizmos()
+   {
+       //ShowFOV();
+   }
+   
+   
+   private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)
+   {
+       angleInDegrees += eulerY;
+   
+       return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+   }
+   private void ShowFOV()
+   {
+       // Gizmos.color = Color.black;
+       // Gizmos.DrawWireSphere(transform.position, radius);
+   
+       Gizmos.color = Color.red;
+   
+       Vector3 viewAngleLeft = DirectionFromAngle(transform.eulerAngles.y, -angle / 2);
+       Vector3 viewAngleRight = DirectionFromAngle(transform.eulerAngles.y, angle / 2);
+   
+       Gizmos.DrawLine(transform.position, transform.position + viewAngleLeft * radius);
+       Gizmos.DrawLine(transform.position, transform.position + viewAngleRight * radius);
+   
+       //draw a line to player if player is seen
+       if (playerVisibility)
+       {
+           Gizmos.color = Color.green;
+           Gizmos.DrawLine(transform.position, playerRef.transform.position);
+       }
+   }
 }

@@ -50,8 +50,8 @@ public class EnemyCombat : MonoBehaviour
 
         if (playersinRange.Length > 0)
         {
-            PlayerBehaviour player = playersinRange[0].GetComponent<PlayerBehaviour>();
-            player.damagePlayer(damage);
+            EntityHealth player = playersinRange[0].GetComponentInChildren<EntityHealth>();
+            player.damageEntity(damage);
         }
     }
 

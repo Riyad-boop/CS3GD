@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
     private float velocity = 0;
     private int VelocityHash;
 
+    private PlayerCombat combat;
+
     //variables for rotation
     [SerializeField]
     private float rotationFactor = 5f;
@@ -35,6 +37,9 @@ public class PlayerMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         playerInput = new PlayerInput();
         VelocityHash = Animator.StringToHash("Velocity");
+
+        combat = characterController.GetComponent<PlayerCombat>().Initialiser(playerInput);
+
 
         // handling inputs for keydown
         playerInput.Gameplay.Move.started += onMovementInput;
