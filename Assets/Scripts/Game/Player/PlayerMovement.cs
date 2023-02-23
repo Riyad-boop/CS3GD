@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
         playerInput = new PlayerInput();
         VelocityHash = Animator.StringToHash("Velocity");
 
-        combat = characterController.GetComponent<PlayerCombat>().Initialiser(playerInput,animator);
+        combat = GetComponent<PlayerCombat>().Initialiser(playerInput,animator);
 
 
         // handling inputs for keydown

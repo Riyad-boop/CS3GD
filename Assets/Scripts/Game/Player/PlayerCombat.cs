@@ -43,7 +43,7 @@ public class PlayerCombat : MonoBehaviour
         //wait one second for animation to play then call the damage player function 
         yield return new WaitForSeconds(1);
         DamageEntity(15);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         attackCooldown = false;
     }
 
