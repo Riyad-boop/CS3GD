@@ -11,6 +11,7 @@ public class PlayerCombat : MonoBehaviour
     private PlayerInput playerInput;
     private Animator animator;
     private bool attackCooldown = false;
+    private int killCount;
 
     public PlayerCombat Initialiser(PlayerInput _playerInput, Animator _anim)
     {
@@ -63,7 +64,8 @@ public class PlayerCombat : MonoBehaviour
                     //change state if player is dead
                     if (target.damageEntity(damage))
                     {
-                        Debug.Log("enemy felled");
+                        killCount++;
+                        Debug.Log("Kills:" + killCount);
                     }
                 }
             }

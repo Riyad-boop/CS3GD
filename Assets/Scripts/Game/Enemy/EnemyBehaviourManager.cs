@@ -29,6 +29,7 @@ public class EnemyBehaviourManager : MonoBehaviour
     public bool swarmMode = false;
     private bool screamCooldown = false;
 
+    private bool dead = false;
     public bool chasePlayer = false;
     public Transform player;
 
@@ -81,6 +82,20 @@ public class EnemyBehaviourManager : MonoBehaviour
         //stop the agent from moving 
         agent.isStopped = true;
 
+    }
+
+    public void Death()
+    {
+        //disable fov
+        GetComponentInChildren<FieldOfView>().gameObject.SetActive(false);
+        chasePlayer = false;
+        swarmMode = false;
+       
+        //stop the agent from moving 
+        agent.isStopped = true;
+
+        // TODO start despawn?
+        dead = true;
     }
 
     public void Scream()

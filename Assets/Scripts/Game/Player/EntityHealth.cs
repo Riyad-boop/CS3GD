@@ -48,7 +48,7 @@ public class EntityHealth : MonoBehaviour
         EnemyBehaviourManager enemy_entity =  GetComponentInParent<EnemyBehaviourManager>();
         if (enemy_entity != null)
         {
-            enemy_entity.Victory();
+            enemy_entity.Death();
         }
         else
         {
