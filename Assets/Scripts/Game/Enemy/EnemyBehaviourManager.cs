@@ -40,7 +40,7 @@ public class EnemyBehaviourManager : MonoBehaviour
         animator = GetComponent<Animator>();
         agent  = GetComponent<NavMeshAgent>();
 
-        combat = GetComponent<EnemyCombat>().Initialiser(animator, playerMask, 1f, this);
+        combat = GetComponent<EnemyCombat>().Initialiser(animator, playerMask, hitboxRadius, this);
         movement = GetComponent<EnemyMovement>().Initialiser(agent, animator, waypoints);
         movement.updatePatrolDestination();
 

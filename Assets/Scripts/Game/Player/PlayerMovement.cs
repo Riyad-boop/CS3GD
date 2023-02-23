@@ -15,9 +15,6 @@ public class PlayerMovement : MonoBehaviour
     Vector3 currentMovement;
     bool isMovementPressed;
 
-    //[SerializeField]
-    //private float acceleration = 6f;
-
     [SerializeField]
     // variables for animation 
     private float acceleration = 6f;
@@ -38,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
         playerInput = new PlayerInput();
         VelocityHash = Animator.StringToHash("Velocity");
 
-        combat = characterController.GetComponent<PlayerCombat>().Initialiser(playerInput);
+        combat = characterController.GetComponent<PlayerCombat>().Initialiser(playerInput,animator);
 
 
         // handling inputs for keydown

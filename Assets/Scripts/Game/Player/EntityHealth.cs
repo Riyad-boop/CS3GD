@@ -43,6 +43,23 @@ public class EntityHealth : MonoBehaviour
     {
         animator.enabled= false;
         capsuleCollider.enabled= false;
+
+        //TODO disable movement on death
+        EnemyBehaviourManager enemy_entity =  GetComponentInParent<EnemyBehaviourManager>();
+        if (enemy_entity != null)
+        {
+            enemy_entity.Victory();
+        }
+        else
+        {
+            PlayerMovement player_entity = GetComponentInParent<PlayerMovement>();
+            if (player_entity != null)
+            {
+                player_entity.enabled = false;
+            }
+        }
+
+        gameObject.SetActive(false);
     }
 
     private void setHealhBar()

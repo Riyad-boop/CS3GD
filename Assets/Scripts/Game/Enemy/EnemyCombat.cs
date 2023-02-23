@@ -38,26 +38,28 @@ public class EnemyCombat : MonoBehaviour
         animator.SetTrigger("Attack");
         //wait one second for animation to play then call the damage player function 
         yield return new WaitForSeconds(1);
-        DamagePlayer(5);
+        DamageEntity(5);
         yield return new WaitForSeconds(2);
         attackCooldown = false;
     }
 
 
-    public void DamagePlayer(int damage)
+    public void DamageEntity(int damage)
     {
-        //check that the player is in range of the enemy
-        Collider[] playersinRange = Physics.OverlapSphere(transform.position, hitboxRadius, targetMask);
+        //check that the target entity is in range of this entity
+        Collider[] targetsinRange = Physics.OverlapSphere(transform.position, hitboxRadius, targetMask);
 
-        if (playersinRange.Length > 0)
+        if (targetsinRange.Length > 0)
         {
-            EntityHealth player = playersinRange[0].GetComponentInChildren<EntityHealth>();
-            bool death = player.damageEntity(damage);
-            //change state
-            if (death)
+            EntityHealth target = targetsinRange[0].GetComponentInChildren<EntityHealth>();
+            if (target != null)
             {
-                parent.Victory();
-            }
+                //change state if player is dead
+                if (target.damageEntity(damage))
+                {
+                    parent.Victory();
+                }
+            }        
         }
     }
 
