@@ -77,7 +77,7 @@ public class FieldOfView : MonoBehaviour
                         playerVisibility = true; //  The player has been seeing by the enemy and then the enemy starts to chasing the player
 
                         parent.target = player.position;
-                        parent.chasePlayer = true;
+                        parent.chaseTarget = true;
                         setVisionConeColour(new Color(0.9f, 0, 0, 0.4f));
 
                         if(parent.zombieType == 0)
@@ -125,7 +125,7 @@ public class FieldOfView : MonoBehaviour
             {
                 Transform player = playersinRange[0].transform;
                 parent.target = player.position;
-                parent.chasePlayer = true;
+                parent.chaseTarget = true;
                 setVisionConeColour(new Color(0.9f, 0, 0, 0.4f));
             }
             //else stop chase if player is far enough away
@@ -148,7 +148,7 @@ public class FieldOfView : MonoBehaviour
         if (!playerVisibility)
         {
             parent.target = Vector3.zero;
-            parent.chasePlayer = false;
+            parent.chaseTarget = false;
            
         }
     }

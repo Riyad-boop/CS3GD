@@ -23,9 +23,10 @@ public class Zombie : MonoBehaviour
     //private FieldOfView fov;
 
     //behaviour states
-    private bool isAlive;
+    private bool isAlive = true;
+    public bool isVictorious;
     public bool swarmMode = false;
-    public bool chasePlayer = false;
+    public bool chaseTarget = false;
     private bool screamCooldown = false;
 
     /// <summary>
@@ -60,43 +61,63 @@ public class Zombie : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (swarmMode)
+        //only this this if the zombie is alive
+        if(isAlive)
         {
-            target = player.position;
-        }
+            if (swarmMode)
+            {
+                target = player.position;
+            }
 
-        if (chasePlayer)
-        {
-            agent.speed = speedFactor + 3;
-            movement.ChaseTarget(target);
-            combat.AttackPlayer(target, player.position);
-
+            if (chaseTarget)
+            {
+                agent.speed = speedFactor + 3;
+                movement.ChaseTarget(target);
+                combat.AttackPlayer(target, player.position);
+            }
+            else
+            {
+                agent.speed = speedFactor;
+                movement.Patrolling();
+            }
         }
-        else
-        {
-            agent.speed = speedFactor;
-            movement.Patrolling();
-        }
-
     }
 
     public void Victory()
     {
-        //disable fov
-        GetComponentInChildren<FieldOfView>().gameObject.SetActive(false);
-        chasePlayer = false;
+        chaseTarget = false;
         swarmMode = false;
 
         //stop the agent from moving 
         agent.isStopped = true;
 
+        // if victory state is enabled then send state to global spawner
+        if (isVictorious)
+        {
+            isVictorious = false;
+            // when player is dead propagate the new state to the spawner so all enemies can stop moving
+            spawner.Victory();
+        }
+        else
+        {
+            GetComponentInChildren<FieldOfView>().gameObject.SetActive(false);
+        }
     }
 
+    //TODO if player dies at same time as death. 
     public void Death()
     {
-        //disable fov
-        GetComponentInChildren<FieldOfView>().gameObject.SetActive(false);
-        chasePlayer = false;
+        try
+        {
+            //disable fov
+            GetComponentInChildren<FieldOfView>().gameObject.SetActive(false);
+        }
+        catch
+        {
+            Debug.Log("Fov disabled already due to victory");
+        }
+
+        chaseTarget = false;
         swarmMode = false;
 
         //stop the agent from moving 
@@ -105,7 +126,7 @@ public class Zombie : MonoBehaviour
         // TODO start despawn?
         isAlive = false;
         spawner.removeZombieFromList(this);
-        //remove zombie from spawner list
+        //remove zombie from spawner list  
     }
 
     public void Scream()

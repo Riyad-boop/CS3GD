@@ -600,7 +600,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 344854265}
-  - component: {fileID: 344854267}
   - component: {fileID: 344854266}
   m_Layer: 0
   m_Name: Zombie Spawner
@@ -635,30 +634,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fbdf8201bc355443b049f9b4e46eeb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnNumber: 1
+  spawnNumber: 3
   zombiePrefab: {fileID: 2773240275793077143, guid: 033a37c9f2f1b6c48aa3609a41536a25, type: 3}
   waypointLists:
   - {fileID: 331658859}
-  zombies: []
-  playerPos: {fileID: 7704513795659894654}
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 64
---- !u!114 &344854267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 344854264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fbdf8201bc355443b049f9b4e46eeb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnNumber: 0
-  zombiePrefab: {fileID: 0}
-  waypointLists: []
   zombies: []
   playerPos: {fileID: 7704513795659894654}
   targetMask:
@@ -942,7 +921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 100
+  currentHealth: 5
   spriteHealthBar: {fileID: 1159586615}
 --- !u!1 &621402364
 GameObject:

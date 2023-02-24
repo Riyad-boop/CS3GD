@@ -43,7 +43,7 @@ public class PlayerCombat : MonoBehaviour
         animator.SetTrigger("Attack");
         //wait one second for animation to play then call the damage player function 
         yield return new WaitForSeconds(1);
-        DamageEntity(15);
+        DamageEntity(20);
         yield return new WaitForSeconds(1);
         attackCooldown = false;
     }
@@ -58,11 +58,22 @@ public class PlayerCombat : MonoBehaviour
         {
             foreach(Collider col in targetsinRange)
             {
-                EntityHealth target = col.GetComponentInChildren<EntityHealth>();
+                Zombie target = col.GetComponent<Zombie>();
                 if (target != null)
                 {
+                    if(!target.swarmMode && !target.chaseTarget)
+                    {
+                        //apply damage multipyer if the enemy is hit while unaware
+                        damage *= 5;
+                    }
+                }
+
+                EntityHealth targetHealth = col.GetComponentInChildren<EntityHealth>();
+
+                if (targetHealth != null)
+                {
                     //change state if player is dead
-                    if (target.damageEntity(damage))
+                    if (targetHealth.damageEntity(damage))
                     {
                         killCount++;
                         Debug.Log("Kills:" + killCount);

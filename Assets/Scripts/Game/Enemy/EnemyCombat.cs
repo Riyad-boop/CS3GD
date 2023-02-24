@@ -57,6 +57,7 @@ public class EnemyCombat : MonoBehaviour
                 //change state if player is dead
                 if (target.damageEntity(damage))
                 {
+                    parent.isVictorious= true;
                     parent.Victory();
                 }
             }        

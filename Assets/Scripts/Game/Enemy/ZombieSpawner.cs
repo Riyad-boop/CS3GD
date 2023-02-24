@@ -57,7 +57,11 @@ public class ZombieSpawner : MonoBehaviour
                 for (int i = 0; i < spawnNumber; i++)
                 {
                     Transform[] waypoints = getWaypointLocations(waypointLists[0]);
-                    var zombie = GameObject.Instantiate(zombiePrefab,waypoints[0].position, waypoints[0].rotation);
+
+                    //generate random number to spawn enemy
+                    Transform spawnPoint = waypoints[Random.Range(0, waypoints.Length)];
+
+                    var zombie = GameObject.Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
                     //TODO create two zombie types
                     zombie.AddComponent<Zombie>().Init(this, waypoints, playerPos, targetMask, _zombieType: 0, _hitboxRadius: 1f, _agentSpeed: 0.5f,fov_angle: 100f,fov_radius: 7f);
@@ -103,5 +107,12 @@ public class ZombieSpawner : MonoBehaviour
     public void removeZombieFromList(Zombie zombie)
     {
         zombies.Remove(zombie);
+    }
+
+    public void Victory()
+    {
+        foreach(Zombie zombie in zombies) { 
+            zombie.Victory();
+        }
     }
 }
