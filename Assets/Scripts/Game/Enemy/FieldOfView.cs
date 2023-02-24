@@ -126,12 +126,12 @@ public class FieldOfView : MonoBehaviour
                 Transform player = playersinRange[0].transform;
                 parent.target = player.position;
                 parent.chaseTarget = true;
-                setVisionConeColour(new Color(0.9f, 0, 0, 0.4f));
+                setVisionConeColour(new Color(0.9f, 0, 0, 0.2f));
             }
             //else stop chase if player is far enough away
             else
             {
-                setVisionConeColour(new Color(0.7f, 0.7f, 0.7f, 0.4f));
+                setVisionConeColour(new Color(0.7f, 0.7f, 0.7f, 0.2f));
                 StartCoroutine(stopChaseMode());
             }
         }

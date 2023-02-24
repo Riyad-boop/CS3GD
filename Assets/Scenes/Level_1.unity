@@ -616,7 +616,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 344854264}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 107373867}
@@ -634,7 +634,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fbdf8201bc355443b049f9b4e46eeb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnNumber: 3
+  spawnNumber: 15
   zombiePrefab: {fileID: 2773240275793077143, guid: 033a37c9f2f1b6c48aa3609a41536a25, type: 3}
   waypointLists:
   - {fileID: 331658859}
@@ -921,7 +921,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 5
+  currentHealth: 100
   spriteHealthBar: {fileID: 1159586615}
 --- !u!1 &621402364
 GameObject:
