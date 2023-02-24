@@ -10,6 +10,7 @@ public class FollowPlayer : MonoBehaviour
     [SerializeField]
     private float offset;
 
+    PlayerInput input;
 
     // Update is called once per frame
     void LateUpdate()

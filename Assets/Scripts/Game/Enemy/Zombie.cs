@@ -5,11 +5,12 @@ using UnityEngine.AI;
 
 public class Zombie : MonoBehaviour
 {
-    // The spawner variables
+    [Header("Constructor varaibles")]
     private ZombieSpawner spawner;
+    public int wayPointListIndex;
     private Transform[] waypoints;
     public Vector3 target;
-    public int zombieType;
+    public int zombieType;   //used for save/load
     private Transform player;
     private LayerMask targetMask;
     private float hitboxRadius;
@@ -21,11 +22,12 @@ public class Zombie : MonoBehaviour
     private EnemyCombat combat;
     private EnemyMovement movement;
     //private FieldOfView fov;
+    public EntityHealth health;
 
     //behaviour states
     private bool isAlive = true;
     public bool isVictorious;
-    public bool swarmMode = false;
+    public bool swarmMode;   //used for save/load
     public bool chaseTarget = false;
     private bool screamCooldown = false;
 
@@ -35,10 +37,12 @@ public class Zombie : MonoBehaviour
     /// <param name="_waypoints"></param>
     /// <param name="_player"></param>
     /// <param name="_zombieType"></param>
-    public Zombie Init(ZombieSpawner spawner,Transform[] _waypoints, Transform _player, LayerMask _targetMask ,int _zombieType, float _hitboxRadius, float _agentSpeed, float fov_angle, float fov_radius) {
+    public Zombie Init(ZombieSpawner spawner,int _wayPointListIndex,Transform[] _waypoints,bool _swarmMode, Transform _player, LayerMask _targetMask ,int _zombieType, float _hitboxRadius, float _agentSpeed, float fov_angle, float fov_radius) {
      
         this.spawner = spawner;
+        this.wayPointListIndex = _wayPointListIndex;
         this.waypoints = _waypoints;
+        this.swarmMode= _swarmMode;
         this.player = _player;
         this.zombieType = _zombieType;
         this.targetMask= _targetMask;
@@ -53,7 +57,7 @@ public class Zombie : MonoBehaviour
 
         //intialise fov
         GetComponentInChildren<FieldOfView>().Init(this, fov_angle, fov_radius, targetMask);
-     
+        health = GetComponentInChildren<EntityHealth>();
 
         return this;
     }
@@ -123,10 +127,16 @@ public class Zombie : MonoBehaviour
         //stop the agent from moving 
         agent.isStopped = true;
 
-        // TODO start despawn?
+        StartCoroutine(Despawn());
         isAlive = false;
         spawner.removeZombieFromList(this);
         //remove zombie from spawner list  
+    }
+
+    IEnumerator Despawn()
+    {
+        yield return new WaitForSeconds(15);
+        Destroy(gameObject);
     }
 
     public void Scream()

@@ -44,7 +44,7 @@ public class EntityHealth : MonoBehaviour
         animator.enabled= false;
         capsuleCollider.enabled= false;
 
-        //TODO disable movement on death
+        //disables movement on death
         Zombie enemy_entity =  GetComponentInParent<Zombie>();
         if (enemy_entity != null)
         {
@@ -62,7 +62,7 @@ public class EntityHealth : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void setHealhBar()
+    public void setHealhBar()
     {
        spriteHealthBar.fillAmount = currentHealth / maxHealth;
     }

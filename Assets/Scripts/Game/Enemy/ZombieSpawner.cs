@@ -30,33 +30,13 @@ public class ZombieSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // if(waypointLists.Length >= 1)
-        // {
-        //     Transform[] waypoints = getWaypointLocations(waypointLists[0]);
-        //
-        //     foreach (Transform g in waypoints)
-        //     {
-        //         Debug.Log(g.name);
-        //     }
-        // }
-
-        // if(waypointLists.Length >= 1)
-        // {
-        //     for (int i = 0; i < spawnNumber; i++)
-        //     {
-        //         zombies[i] = new Zombie(getWaypointLocations(waypointLists[0]), player, 0);
-        //     }
-        // }
-
-        //var zombie = GameObject.Instantiate(zombiePrefab);
-        // zombie.AddComponent<Zombie>();
-
         if (waypointLists.Length >= 1 && spawnNumber > 0)
         {
             {
                 for (int i = 0; i < spawnNumber; i++)
                 {
-                    Transform[] waypoints = getWaypointLocations(waypointLists[0]);
+                    int wayPointListIndex = 0;
+                    Transform[] waypoints = getWaypointLocations(waypointLists[wayPointListIndex]);
 
                     //generate random number to spawn enemy
                     Transform spawnPoint = waypoints[Random.Range(0, waypoints.Length)];
@@ -64,17 +44,41 @@ public class ZombieSpawner : MonoBehaviour
                     var zombie = GameObject.Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
                     //TODO create two zombie types
-                    zombie.AddComponent<Zombie>().Init(this, waypoints, playerPos, targetMask, _zombieType: 0, _hitboxRadius: 1f, _agentSpeed: 0.5f,fov_angle: 100f,fov_radius: 7f);
-                    zombies.Add(zombie.GetComponent<Zombie>());
+                    zombie.AddComponent<Zombie>().Init(this, wayPointListIndex , waypoints, _swarmMode: false, playerPos, targetMask, _zombieType: 0, _hitboxRadius: 1f, _agentSpeed: 0.5f,fov_angle: 100f,fov_radius: 7f);
+                    addZombieToList(zombie.GetComponent<Zombie>());
                 }
             }
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SaveZombies()
     {
-        
+        SaveLoadSystem.SaveZombies();
+    }
+
+    public void LoadZombies()
+    {
+        List<ZombieData> zombieDataList = SaveLoadSystem.loadZombies();
+
+        foreach(ZombieData data in zombieDataList)
+        {
+            int wayPointListIndex = data.wayPointListIndex;
+            Transform[] waypoints = getWaypointLocations(waypointLists[wayPointListIndex]);
+
+            //generate random number to spawn enemy
+            Vector3 spawnPoint;
+            spawnPoint.x = data.position[0];
+            spawnPoint.y = data.position[1];
+            spawnPoint.z = data.position[2];
+
+            var zombie = GameObject.Instantiate(zombiePrefab, spawnPoint, Quaternion.identity);
+
+            zombie.AddComponent<Zombie>().Init(this, wayPointListIndex, waypoints, _swarmMode: data.swarmMode, playerPos, targetMask, _zombieType: data.zombieType, _hitboxRadius: 1f, _agentSpeed: 0.5f, fov_angle: 100f, fov_radius: 7f);
+            Zombie zombieComponent = zombie.GetComponent<Zombie>();
+            zombieComponent.health.currentHealth = data.health;
+            zombieComponent.health.setHealhBar();
+            addZombieToList(zombieComponent);
+        }
     }
 
 
@@ -103,16 +107,36 @@ public class ZombieSpawner : MonoBehaviour
         return waypoints.ToArray();
     }
 
-
-    public void removeZombieFromList(Zombie zombie)
-    {
-        zombies.Remove(zombie);
-    }
-
+    //TODO clear zombie list?
+    /// <summary>
+    /// change the state of all zombies to victory
+    /// </summary>
     public void Victory()
     {
-        foreach(Zombie zombie in zombies) { 
+        foreach (Zombie zombie in zombies)
+        {
             zombie.Victory();
         }
     }
+
+    /// <summary>
+    /// adds the zombie to list and save system's version of the list
+    /// </summary>
+    /// <param name="zombie"></param>
+    public void addZombieToList(Zombie zombie)
+    {
+        zombies.Add(zombie);
+        SaveLoadSystem.zombies = zombies;
+    }
+
+    /// <summary>
+    /// delete's the zombie to list and save system's version of the list
+    /// </summary>
+    /// <param name="zombie"></param>
+    public void removeZombieFromList(Zombie zombie)
+    {
+        zombies.Remove(zombie);
+        SaveLoadSystem.zombies = zombies;
+    }
+
 }

@@ -6,17 +6,22 @@ using UnityEngine.InputSystem.Controls;
 
 public class PlayerCombat : MonoBehaviour
 {
-    public LayerMask targetMask;
-    public float hitboxRadius;
+    private LayerMask targetMask;
+    private float hitboxRadius;
     private PlayerInput playerInput;
     private Animator animator;
     private bool attackCooldown = false;
-    private int killCount;
 
-    public PlayerCombat Initialiser(PlayerInput _playerInput, Animator _anim)
+    //playerData variables
+    public int killCount;
+
+
+    public PlayerCombat Init(PlayerInput _playerInput, LayerMask _targetMask ,float _hitboxRadius)
     {
         this.playerInput = _playerInput;
-        this.animator = _anim;
+        this.animator = GetComponent<Animator>();
+        this.targetMask = _targetMask;
+        this.hitboxRadius = _hitboxRadius;
         return this;
     }
 

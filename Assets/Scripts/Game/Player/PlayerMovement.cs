@@ -20,23 +20,19 @@ public class PlayerMovement : MonoBehaviour
     private float acceleration = 6f;
     private float deceleration = 100f;
     private float velocity = 0;
-    private int VelocityHash;
+    private int velocityHash;
 
-    private PlayerCombat combat;
 
     //variables for rotation
     [SerializeField]
-    private float rotationFactor = 5f;
+    private float rotationSpeed = 5f;
 
-    private void Awake()
+    public PlayerMovement Init(PlayerInput _playerInput, float _acceleration, float _deceleration, float _rotationSpeed)
     {
-        animator = GetComponent<Animator>();
-        characterController = GetComponent<CharacterController>();
-        playerInput = new PlayerInput();
-        VelocityHash = Animator.StringToHash("Velocity");
-
-        combat = GetComponent<PlayerCombat>().Initialiser(playerInput,animator);
-
+        this.playerInput = _playerInput;
+        this.animator= GetComponent<Animator>();
+        this.characterController = GetComponent<CharacterController>();
+        velocityHash = Animator.StringToHash("Velocity");
 
         // handling inputs for keydown
         playerInput.Gameplay.Move.started += onMovementInput;
@@ -45,8 +41,8 @@ public class PlayerMovement : MonoBehaviour
         // handling inputs for controller
         playerInput.Gameplay.Move.performed += onMovementInput;
 
+        return this;
     }
-
 
     private void onMovementInput(InputAction.CallbackContext context)
     {
@@ -68,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
         if (isMovementPressed)
         {
             Quaternion targetRotation = Quaternion.LookRotation(lookAtPos);
-            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationFactor * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
      
     }
@@ -99,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        animator.SetFloat(VelocityHash, velocity);
+        animator.SetFloat(velocityHash, velocity);
     }
 
     private void Update()
@@ -109,13 +105,4 @@ public class PlayerMovement : MonoBehaviour
         characterController.Move(currentMovement * velocity * Time.deltaTime);
     }
 
-    private void OnEnable()
-    {
-        playerInput.Gameplay.Enable();
-    }
-
-    private void OnDisable()
-    {
-        playerInput.Gameplay.Disable();
-    }
 }
