@@ -45,7 +45,7 @@ public class EntityHealth : MonoBehaviour
         capsuleCollider.enabled= false;
 
         //TODO disable movement on death
-        EnemyBehaviourManager enemy_entity =  GetComponentInParent<EnemyBehaviourManager>();
+        Zombie enemy_entity =  GetComponentInParent<Zombie>();
         if (enemy_entity != null)
         {
             enemy_entity.Death();

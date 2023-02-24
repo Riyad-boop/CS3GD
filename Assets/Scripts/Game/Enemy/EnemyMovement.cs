@@ -12,7 +12,7 @@ public class EnemyMovement : MonoBehaviour
     private int waypointIndex;
     private Vector3 target;
    
-    public EnemyMovement Initialiser(NavMeshAgent _agent,Animator _anim, Transform[] _waypoints)
+    public EnemyMovement Init(NavMeshAgent _agent,Animator _anim, Transform[] _waypoints)
     {
         agent = _agent;
         animator = _anim;

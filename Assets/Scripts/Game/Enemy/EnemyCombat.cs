@@ -8,9 +8,9 @@ public class EnemyCombat : MonoBehaviour
     private bool attackCooldown = false;
     private Animator animator;
     private LayerMask targetMask;
-    private EnemyBehaviourManager parent;
+    private Zombie parent;
 
-    public EnemyCombat Initialiser(Animator _anim, LayerMask _targetMask, float _hitboxRadius, EnemyBehaviourManager _parent)
+    public EnemyCombat Init(Animator _anim, LayerMask _targetMask, float _hitboxRadius, Zombie _parent)
     {
         animator = _anim;
         targetMask = _targetMask;

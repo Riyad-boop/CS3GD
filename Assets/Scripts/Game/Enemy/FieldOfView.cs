@@ -12,9 +12,9 @@ public class FieldOfView : MonoBehaviour
     [Range(0,360)]
     public float angle;
 
-    public GameObject playerRef;
+    public GameObject targetRef;
 
-    public LayerMask playerMask;
+    public LayerMask targetMask;
     public LayerMask obstructionsMask;
 
     public bool playerVisibility;
@@ -23,25 +23,38 @@ public class FieldOfView : MonoBehaviour
     private Mesh VisionConeMesh;
     private MeshFilter VisionConeMeshFilter;
 
-    private EnemyBehaviourManager enemyBehaviour;
+    private Zombie parent;
     private bool chaseMode = false;
 
 
-    // Start is called before the first frame update
-    void Start()
+    public FieldOfView Init(Zombie _parent, float _angle,float _radius, LayerMask _targetMask)
     {
-        //playerRef = GameObject.FindGameObjectsWithTag()
-        enemyBehaviour = GetComponentInParent<EnemyBehaviourManager>();
-        transform.AddComponent<MeshRenderer>().material = VisionConeMaterial;
-        VisionConeMeshFilter = transform.AddComponent<MeshFilter>();
-        VisionConeMesh = new Mesh();
-      
+        this.parent = _parent;
+        this.angle = _angle;
+        this.radius = _radius;
+        this.targetMask = _targetMask;
+        this.transform.AddComponent<MeshRenderer>().material = VisionConeMaterial;
+        this.VisionConeMeshFilter = transform.AddComponent<MeshFilter>();
+        this.VisionConeMesh = new Mesh();
+
+        return this;
     }
+
+  // // Start is called before the first frame update
+  // void Start()
+  // {
+  //     //playerRef = GameObject.FindGameObjectsWithTag()
+  //     enemyBehaviour = GetComponentInParent<Zombie>();
+  //     transform.AddComponent<MeshRenderer>().material = VisionConeMaterial;
+  //     VisionConeMeshFilter = transform.AddComponent<MeshFilter>();
+  //     VisionConeMesh = new Mesh();
+  //   
+  // }
 
     private void FOV()
     {
         // Overlap sphere around the enemy to detect the playermask in the view radius
-        Collider[] playerinRange = Physics.OverlapSphere(transform.position, radius, playerMask);
+        Collider[] playerinRange = Physics.OverlapSphere(transform.position, radius, targetMask);
 
 
         if (playerinRange.Length > 0 )
@@ -63,17 +76,17 @@ public class FieldOfView : MonoBehaviour
                     {
                         playerVisibility = true; //  The player has been seeing by the enemy and then the enemy starts to chasing the player
 
-                        enemyBehaviour.target = player.position;
-                        enemyBehaviour.chasePlayer = true;
+                        parent.target = player.position;
+                        parent.chasePlayer = true;
                         setVisionConeColour(new Color(0.9f, 0, 0, 0.4f));
 
-                        if(enemyBehaviour.enemyType == 0)
+                        if(parent.zombieType == 0)
                         {
                            chaseMode = true;
                         }
-                        else if(enemyBehaviour.enemyType == 1)
+                        else if(parent.zombieType == 1)
                         {
-                            enemyBehaviour.Scream();
+                            parent.Scream();
                         }
                         
                         //StopCoroutine(stopChaseMode());
@@ -105,14 +118,14 @@ public class FieldOfView : MonoBehaviour
         if (chaseMode)
         {
             //check if player is nearby (70% of radius).
-            Collider[] playersinRange = Physics.OverlapSphere(transform.position, radius * 0.7f, playerMask);
+            Collider[] playersinRange = Physics.OverlapSphere(transform.position, radius * 0.7f, targetMask);
 
             // if player is still nearby then continue the chase by getting the player's position, rather than relying on visibility.
             if (playersinRange.Length > 0)
             {
                 Transform player = playersinRange[0].transform;
-                enemyBehaviour.target = player.position;
-                enemyBehaviour.chasePlayer = true;
+                parent.target = player.position;
+                parent.chasePlayer = true;
                 setVisionConeColour(new Color(0.9f, 0, 0, 0.4f));
             }
             //else stop chase if player is far enough away
@@ -134,8 +147,8 @@ public class FieldOfView : MonoBehaviour
         //Then go back to patrol mode (if swarm mode is not on)
         if (!playerVisibility)
         {
-            enemyBehaviour.target = Vector3.zero;
-            enemyBehaviour.chasePlayer = false;
+            parent.target = Vector3.zero;
+            parent.chasePlayer = false;
            
         }
     }
@@ -199,8 +212,11 @@ public class FieldOfView : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if parent has not been set then return 
+        //if (!parent) { return; }
+
         // if swarm is disabled then show fov
-        if (!enemyBehaviour.swarmMode)
+        if (!parent.swarmMode)
         {
             FOV();
             DrawVisionCone();
@@ -213,36 +229,36 @@ public class FieldOfView : MonoBehaviour
        
     }
 
-   private void OnDrawGizmos()
-   {
-       //ShowFOV();
-   }
-   
-   
-   private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)
-   {
-       angleInDegrees += eulerY;
-   
-       return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
-   }
-   private void ShowFOV()
-   {
-       // Gizmos.color = Color.black;
-       // Gizmos.DrawWireSphere(transform.position, radius);
-   
-       Gizmos.color = Color.red;
-   
-       Vector3 viewAngleLeft = DirectionFromAngle(transform.eulerAngles.y, -angle / 2);
-       Vector3 viewAngleRight = DirectionFromAngle(transform.eulerAngles.y, angle / 2);
-   
-       Gizmos.DrawLine(transform.position, transform.position + viewAngleLeft * radius);
-       Gizmos.DrawLine(transform.position, transform.position + viewAngleRight * radius);
-   
-       //draw a line to player if player is seen
-       if (playerVisibility)
-       {
-           Gizmos.color = Color.green;
-           Gizmos.DrawLine(transform.position, playerRef.transform.position);
-       }
-   }
+  // private void OnDrawGizmos()
+  // {
+  //     //ShowFOV();
+  // }
+  // 
+  // 
+  // private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)
+  // {
+  //     angleInDegrees += eulerY;
+  // 
+  //     return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+  // }
+  // private void ShowFOV()
+  // {
+  //     // Gizmos.color = Color.black;
+  //     // Gizmos.DrawWireSphere(transform.position, radius);
+  // 
+  //     Gizmos.color = Color.red;
+  // 
+  //     Vector3 viewAngleLeft = DirectionFromAngle(transform.eulerAngles.y, -angle / 2);
+  //     Vector3 viewAngleRight = DirectionFromAngle(transform.eulerAngles.y, angle / 2);
+  // 
+  //     Gizmos.DrawLine(transform.position, transform.position + viewAngleLeft * radius);
+  //     Gizmos.DrawLine(transform.position, transform.position + viewAngleRight * radius);
+  // 
+  //     //draw a line to player if player is seen
+  //     if (playerVisibility)
+  //     {
+  //         Gizmos.color = Color.green;
+  //         Gizmos.DrawLine(transform.position, targetRef.transform.position);
+  //     }
+  // }
 }
