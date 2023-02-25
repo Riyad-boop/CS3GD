@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    //varialbes saved to file
+    public int level;
+
     // reference variables 
     private PlayerInput playerInput;
 
@@ -27,52 +30,34 @@ public class Player : MonoBehaviour
     public PlayerCombat combat;
     public PlayerMovement movement;
     public EntityHealth health;
+    public GameManager gameManager;
 
-    void Awake()
+    public Player Init(int _level,LayerMask _targetMask,float _hitboxRadius , GameManager _gameManager)
     {
-        playerInput = new PlayerInput();
-        combat = gameObject.AddComponent<PlayerCombat>().Init(playerInput,targetMask,hitboxRadius);
-        movement = gameObject.AddComponent<PlayerMovement>().Init(playerInput,acceleration,deceleration,rotationSpeed);
-        health = GetComponentInChildren<EntityHealth>();
+        this.level = _level;
+        this.targetMask = _targetMask;
+        this.hitboxRadius = _hitboxRadius;
+        this.gameManager = _gameManager;
+        this.playerInput = new PlayerInput();
+        this.combat = gameObject.AddComponent<PlayerCombat>().Init(playerInput,targetMask,hitboxRadius);
+        this.movement = gameObject.AddComponent<PlayerMovement>().Init(playerInput,acceleration,deceleration,rotationSpeed);
+        this.health = GetComponentInChildren<EntityHealth>();
 
-        PlayerData data = SaveLoadSystem.LoadPlayer();
-    }
-
-    public void SavePlayer()
-    {
-        SaveLoadSystem.SavePlayer(this);
-    }
-
-    public void LoadPlayer()
-    {
-        PlayerData data = SaveLoadSystem.LoadPlayer();
-
-        // set the current health and update the healthbar
-        health.currentHealth = data.health;
-        health.setHealhBar();
-
-        //TODO update counter in UI
-        combat.killCount = data.killCount;
-        
-
-        // load the player position
-        Vector3 loadPosition;
-        loadPosition.x = data.position[0];
-        loadPosition.y = data.position[1];
-        loadPosition.z = data.position[2];
-
-        //the character controller prevents teleportation so we can just temporaily disable then re-enable after load 
-        var controller = GetComponent<CharacterController>();
-        controller.enabled = false;
-        transform.position = loadPosition;
-        controller.enabled = true;
-    }
-
-
-    private void OnEnable()
-    {
         playerInput.Gameplay.Enable();
+
+        return this;
     }
+
+    public void SaveGame()
+    {
+        gameManager.SaveGame();
+    }
+
+
+   // private void OnEnable()
+   // {
+   //     playerInput.Gameplay.Enable();
+   // }
 
     private void OnDisable()
     {

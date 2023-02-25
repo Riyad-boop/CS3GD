@@ -6,12 +6,14 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
+    public int level;
     public int killCount;
     public float health;
     public float[] position = new float[3];
 
     public PlayerData(Player player)
     {
+        this.level = player.level;
         this.killCount = player.combat.killCount;
         this.health = player.health.currentHealth;
 

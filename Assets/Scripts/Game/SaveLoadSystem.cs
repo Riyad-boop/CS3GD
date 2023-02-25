@@ -23,6 +23,8 @@ public static class SaveLoadSystem
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + PLAYER_FILEPATH;
+
+        Debug.Log(path);
         
         //open filestream in create mode
         FileStream stream = new FileStream(path, FileMode.Create);
@@ -62,7 +64,7 @@ public static class SaveLoadSystem
 
 
     /// <summary>
-    /// Saves all the zombies into a file
+    /// Saves all the zombies into a file along with a count file which holds the number of entities saved
     /// </summary>
     public static void SaveZombies()
     {
@@ -87,6 +89,9 @@ public static class SaveLoadSystem
      
     }
 
+    /// <summary>
+    /// Loads all the zombies into a file along with a count file which holds the number of entities saved
+    /// </summary>
     public static List<ZombieData> loadZombies()
     {
         BinaryFormatter formatter = new BinaryFormatter();

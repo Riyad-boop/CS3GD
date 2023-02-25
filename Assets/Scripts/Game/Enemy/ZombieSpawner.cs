@@ -10,7 +10,7 @@ public class ZombieSpawner : MonoBehaviour
     [SerializeField]
     private int spawnNumber;
 
-    //number of zombies to spawn
+    //prefab tro spawn zombies
     [SerializeField]
     private GameObject zombiePrefab;
 
@@ -20,15 +20,38 @@ public class ZombieSpawner : MonoBehaviour
     // list of zombie objects
     public List<Zombie> zombies;
 
-    [SerializeField]
-    // player ref
-    private Transform playerPos;
+    // player ref - set by player spawner
+    public Transform playerPos;
 
     [SerializeField]
     private LayerMask targetMask;
 
-    // Start is called before the first frame update
-    void Start()
+    // // Start is called before the first frame update
+    // void Start()
+    // {
+    //     if (waypointLists.Length >= 1 && spawnNumber > 0)
+    //     {
+    //         {
+    //             for (int i = 0; i < spawnNumber; i++)
+    //             {
+    //                 int wayPointListIndex = 0;
+    //                 Transform[] waypoints = getWaypointLocations(waypointLists[wayPointListIndex]);
+    //
+    //                 //generate random number to spawn enemy
+    //                 Transform spawnPoint = waypoints[Random.Range(0, waypoints.Length)];
+    //
+    //                 var zombie = GameObject.Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
+    //
+    //                 //TODO create two zombie types
+    //                 zombie.AddComponent<Zombie>().Init(this, wayPointListIndex , waypoints, _swarmMode: false, playerPos, targetMask, _zombieType: 0, _hitboxRadius: 1f, _agentSpeed: 0.5f,fov_angle: 100f,fov_radius: 7f);
+    //                 addZombieToList(zombie.GetComponent<Zombie>());
+    //             }
+    //         }
+    //     }
+    // }
+    //
+
+    public void NewGameSpawn()
     {
         if (waypointLists.Length >= 1 && spawnNumber > 0)
         {
@@ -41,10 +64,10 @@ public class ZombieSpawner : MonoBehaviour
                     //generate random number to spawn enemy
                     Transform spawnPoint = waypoints[Random.Range(0, waypoints.Length)];
 
-                    var zombie = GameObject.Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
+                    GameObject zombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
                     //TODO create two zombie types
-                    zombie.AddComponent<Zombie>().Init(this, wayPointListIndex , waypoints, _swarmMode: false, playerPos, targetMask, _zombieType: 0, _hitboxRadius: 1f, _agentSpeed: 0.5f,fov_angle: 100f,fov_radius: 7f);
+                    zombie.AddComponent<Zombie>().Init(this, wayPointListIndex, waypoints, _swarmMode: false, playerPos, targetMask, _zombieType: 0, _hitboxRadius: 1f, _agentSpeed: 0.5f, fov_angle: 100f, fov_radius: 7f);
                     addZombieToList(zombie.GetComponent<Zombie>());
                 }
             }
