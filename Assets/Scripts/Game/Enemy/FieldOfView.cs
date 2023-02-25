@@ -80,15 +80,20 @@ public class FieldOfView : MonoBehaviour
                         parent.chaseTarget = true;
                         setVisionConeColour(new Color(0.9f, 0, 0, 0.4f));
 
-                        if(parent.zombieType == 0)
+                        //zombie does different things depending on its type
+                        switch (parent.zombieType)
                         {
-                           chaseMode = true;
+                            case 0:
+                                chaseMode = true;
+                                break;
+                            case 1:
+                                parent.Scream();
+                                break;
+                            default:
+                                // code block
+                                break;
                         }
-                        else if(parent.zombieType == 1)
-                        {
-                            parent.Scream();
-                        }
-                        
+                    
                         //StopCoroutine(stopChaseMode());
                         StopAllCoroutines();
                     }
@@ -126,12 +131,12 @@ public class FieldOfView : MonoBehaviour
                 Transform player = playersinRange[0].transform;
                 parent.target = player.position;
                 parent.chaseTarget = true;
-                setVisionConeColour(new Color(0.9f, 0, 0, 0.2f));
+                setVisionConeColour(new Color(0.9f, 0, 0, 0.4f));
             }
             //else stop chase if player is far enough away
             else
             {
-                setVisionConeColour(new Color(0.7f, 0.7f, 0.7f, 0.2f));
+                setVisionConeColour(new Color(0.7f, 0.7f, 0.7f, 0.4f));
                 StartCoroutine(stopChaseMode());
             }
         }

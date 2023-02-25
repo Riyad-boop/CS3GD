@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
@@ -15,6 +16,7 @@ public class PlayerCombat : MonoBehaviour
     //playerData variables
     public int killCount;
 
+    public TMP_Text killCountText;
 
     public PlayerCombat Init(PlayerInput _playerInput, LayerMask _targetMask ,float _hitboxRadius)
     {
@@ -22,6 +24,7 @@ public class PlayerCombat : MonoBehaviour
         this.animator = GetComponent<Animator>();
         this.targetMask = _targetMask;
         this.hitboxRadius = _hitboxRadius;
+        setKillCountText();
         return this;
     }
 
@@ -81,13 +84,18 @@ public class PlayerCombat : MonoBehaviour
                     if (targetHealth.damageEntity(damage))
                     {
                         killCount++;
-                        Debug.Log("Kills:" + killCount);
+                        setKillCountText();
                     }
                 }
             }
         
         }
 
+    }
+
+    public void setKillCountText()
+    {
+        killCountText.text = killCount.ToString();
     }
 
 }

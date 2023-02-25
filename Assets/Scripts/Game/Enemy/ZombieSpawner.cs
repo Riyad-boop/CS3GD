@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking.Types;
 using UnityEngine.UIElements;
 
 public class ZombieSpawner : MonoBehaviour
@@ -26,30 +27,6 @@ public class ZombieSpawner : MonoBehaviour
     [SerializeField]
     private LayerMask targetMask;
 
-    // // Start is called before the first frame update
-    // void Start()
-    // {
-    //     if (waypointLists.Length >= 1 && spawnNumber > 0)
-    //     {
-    //         {
-    //             for (int i = 0; i < spawnNumber; i++)
-    //             {
-    //                 int wayPointListIndex = 0;
-    //                 Transform[] waypoints = getWaypointLocations(waypointLists[wayPointListIndex]);
-    //
-    //                 //generate random number to spawn enemy
-    //                 Transform spawnPoint = waypoints[Random.Range(0, waypoints.Length)];
-    //
-    //                 var zombie = GameObject.Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
-    //
-    //                 //TODO create two zombie types
-    //                 zombie.AddComponent<Zombie>().Init(this, wayPointListIndex , waypoints, _swarmMode: false, playerPos, targetMask, _zombieType: 0, _hitboxRadius: 1f, _agentSpeed: 0.5f,fov_angle: 100f,fov_radius: 7f);
-    //                 addZombieToList(zombie.GetComponent<Zombie>());
-    //             }
-    //         }
-    //     }
-    // }
-    //
 
     public void NewGameSpawn()
     {
@@ -61,13 +38,23 @@ public class ZombieSpawner : MonoBehaviour
                     int wayPointListIndex = 0;
                     Transform[] waypoints = getWaypointLocations(waypointLists[wayPointListIndex]);
 
+                    //generate random zombie type (0 or 1)
+                    int zombieType = Random.Range(0, 2);
+                    //int zombieType = 0;
+
+                    //select a random skin (0-20)
+                    int zombieSkin = Random.Range(0, 20);
+
                     //generate random number to spawn enemy
                     Transform spawnPoint = waypoints[Random.Range(0, waypoints.Length)];
 
                     GameObject zombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
-                    //TODO create two zombie types
-                    zombie.AddComponent<Zombie>().Init(this, wayPointListIndex, waypoints, _swarmMode: false, playerPos, targetMask, _zombieType: 0, _hitboxRadius: 1f, _agentSpeed: 0.5f, fov_angle: 100f, fov_radius: 7f);
+                    //apply skin and icon
+                    zombie.GetComponent<ZombieSkins>().skins[zombieSkin].SetActive(true);
+                    zombie.GetComponent<ZombieSkins>().zombieTypeMapIcons[zombieType].SetActive(true);
+
+                    zombie.AddComponent<Zombie>().Init(this, wayPointListIndex, waypoints, _swarmMode: false, playerPos, targetMask, _zombieType: zombieType, _zombieSkin: zombieSkin ,_hitboxRadius: 1f, _agentSpeed: 0.5f, fov_angle: 100f, fov_radius: 7f);
                     addZombieToList(zombie.GetComponent<Zombie>());
                 }
             }
@@ -96,7 +83,11 @@ public class ZombieSpawner : MonoBehaviour
 
             var zombie = GameObject.Instantiate(zombiePrefab, spawnPoint, Quaternion.identity);
 
-            zombie.AddComponent<Zombie>().Init(this, wayPointListIndex, waypoints, _swarmMode: data.swarmMode, playerPos, targetMask, _zombieType: data.zombieType, _hitboxRadius: 1f, _agentSpeed: 0.5f, fov_angle: 100f, fov_radius: 7f);
+            //apply skin and icon
+            zombie.GetComponent<ZombieSkins>().skins[data.zombieSkin].SetActive(true);
+            zombie.GetComponent<ZombieSkins>().zombieTypeMapIcons[data.zombieType].SetActive(true);
+
+            zombie.AddComponent<Zombie>().Init(this, wayPointListIndex, waypoints, _swarmMode: data.swarmMode, playerPos, targetMask, _zombieType: data.zombieType,_zombieSkin: data.zombieSkin, _hitboxRadius: 1f, _agentSpeed: 0.5f, fov_angle: 100f, fov_radius: 7f);
             Zombie zombieComponent = zombie.GetComponent<Zombie>();
             zombieComponent.health.currentHealth = data.health;
             zombieComponent.health.setHealhBar();

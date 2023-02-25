@@ -19,6 +19,13 @@ public class MainMenu : MonoBehaviour
         gameManager.LoadGame();
     }
 
+    public void SaveGame()
+    {
+        gameManager = GetComponentInParent<GameManager>();
+        gameManager.SaveGame();
+    }
+
+
     public void QuitGame()
     {
         Debug.Log("Quit");

@@ -61,6 +61,7 @@ public class PlayerSpawner : MonoBehaviour
 
         //TODO update counter in UI
         player.combat.killCount = data.killCount;
+        player.combat.setKillCountText();
 
         // load the player position
         Vector3 loadPosition;

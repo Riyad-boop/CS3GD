@@ -8,6 +8,7 @@ public class ZombieData
  
     //data to save
     public int zombieType;
+    public int zombieSkin;
     public bool swarmMode;
     public float health;
     public int wayPointListIndex;
@@ -17,6 +18,7 @@ public class ZombieData
     public ZombieData(Zombie zombie)
     {
         this.zombieType = zombie.zombieType;
+        this.zombieSkin = zombie.zombieSkin;
         this.swarmMode= zombie.swarmMode;
         this.health = zombie.health.currentHealth;
         this.wayPointListIndex = zombie.wayPointListIndex;

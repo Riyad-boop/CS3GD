@@ -11,6 +11,16 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(transform.gameObject);
+
+        //This is only for test level
+        if(SceneManager.GetActiveScene().name == "Test_Level")
+        {
+            playerSpawner = GameObject.FindGameObjectWithTag("PlayerSpawner").GetComponent<PlayerSpawner>();
+            playerSpawner.SpawnNewPlayer(this);
+            enemySpawner = GameObject.FindGameObjectWithTag("EnemySpawner").GetComponent<ZombieSpawner>();
+            enemySpawner.NewGameSpawn();
+        }
+      
     }
 
     public void NewGame()

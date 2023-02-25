@@ -5,14 +5,19 @@ using UnityEngine.AI;
 
 public class Zombie : MonoBehaviour
 {
+    [SerializeField]
+    private LayerMask entityMask; // this entity's layermask
+
     [Header("Constructor varaibles")]
     private ZombieSpawner spawner;
     public int wayPointListIndex;
     private Transform[] waypoints;
     public Vector3 target;
     public int zombieType;   //used for save/load
+    public int zombieSkin;   //used for save/load
     private Transform player;
     private LayerMask targetMask;
+    
     private float hitboxRadius;
 
     private Animator animator;
@@ -34,10 +39,19 @@ public class Zombie : MonoBehaviour
     /// <summary>
     /// Constructor function for Zombies
     /// </summary>
+    /// <param name="spawner"></param>
+    /// <param name="_wayPointListIndex"></param>
     /// <param name="_waypoints"></param>
+    /// <param name="_swarmMode"></param>
     /// <param name="_player"></param>
+    /// <param name="_targetMask"></param>
     /// <param name="_zombieType"></param>
-    public Zombie Init(ZombieSpawner spawner,int _wayPointListIndex,Transform[] _waypoints,bool _swarmMode, Transform _player, LayerMask _targetMask ,int _zombieType, float _hitboxRadius, float _agentSpeed, float fov_angle, float fov_radius) {
+    /// <param name="_hitboxRadius"></param>
+    /// <param name="_agentSpeed"></param>
+    /// <param name="fov_angle"></param>
+    /// <param name="fov_radius"></param>
+    /// <returns></returns>
+    public Zombie Init(ZombieSpawner spawner,int _wayPointListIndex,Transform[] _waypoints,bool _swarmMode, Transform _player, LayerMask _targetMask ,int _zombieType, int _zombieSkin, float _hitboxRadius, float _agentSpeed, float fov_angle, float fov_radius) {
      
         this.spawner = spawner;
         this.wayPointListIndex = _wayPointListIndex;
@@ -45,6 +59,7 @@ public class Zombie : MonoBehaviour
         this.swarmMode= _swarmMode;
         this.player = _player;
         this.zombieType = _zombieType;
+        this.zombieSkin = _zombieSkin;
         this.targetMask= _targetMask;
         this.hitboxRadius = _hitboxRadius;
         this.speedFactor = _agentSpeed;
@@ -59,6 +74,7 @@ public class Zombie : MonoBehaviour
         GetComponentInChildren<FieldOfView>().Init(this, fov_angle, fov_radius, targetMask);
         health = GetComponentInChildren<EntityHealth>();
 
+        entityMask = LayerMask.GetMask("Enemy");
         return this;
     }
 
@@ -71,6 +87,7 @@ public class Zombie : MonoBehaviour
             if (swarmMode)
             {
                 target = player.position;
+                chaseTarget = true;
             }
 
             if (chaseTarget)
@@ -108,7 +125,6 @@ public class Zombie : MonoBehaviour
         }
     }
 
-    //TODO if player dies at same time as death. 
     public void Death()
     {
         try
@@ -157,10 +173,40 @@ public class Zombie : MonoBehaviour
     private IEnumerator ScreamingAlert()
     {
         animator.SetTrigger("Scream");
-        screamCooldown = true;
+        screamCooldown = true; 
         yield return new WaitForSeconds(3);
+        AlertNearbyZombies();
         swarmMode = true;
+        //chaseTarget = true;
         screamCooldown = false;
         agent.isStopped = false;
+    }
+
+    // private void OnDrawGizmos()
+    // {
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawWireSphere(transform.position, hitboxRadius * 15);
+    //        
+    // }
+
+    private void AlertNearbyZombies()
+    {
+        //check that the target entity is in range of this entity
+        Collider[] targetsinRange = Physics.OverlapSphere(transform.position, hitboxRadius * 15, entityMask);
+
+        if (targetsinRange.Length > 0)
+        {
+            foreach (Collider col in targetsinRange)
+            {
+                Zombie target = col.GetComponent<Zombie>();
+                if (target != null)
+                {
+                    target.swarmMode = true;
+                    //target.chaseTarget= true;
+                }
+            }
+
+        }
+
     }
 }

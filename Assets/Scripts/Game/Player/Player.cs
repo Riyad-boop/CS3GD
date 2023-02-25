@@ -1,10 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    //varialbes saved to file
+    private InputAction menu;
+    private bool isPaused;
+    private GameObject overlayCavnas;
+    [SerializeField]
+    private GameObject escapeMenu;
+
+    //variables saved to file
     public int level;
 
     // reference variables 
@@ -26,10 +33,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float rotationSpeed = 5f;
 
-    [Header("Components (set in script)")]
+
     public PlayerCombat combat;
-    public PlayerMovement movement;
     public EntityHealth health;
+    public PlayerMovement movement;
+    [Header("Components (set in script)")]
     public GameManager gameManager;
 
     public Player Init(int _level,LayerMask _targetMask,float _hitboxRadius , GameManager _gameManager)
@@ -39,29 +47,50 @@ public class Player : MonoBehaviour
         this.hitboxRadius = _hitboxRadius;
         this.gameManager = _gameManager;
         this.playerInput = new PlayerInput();
-        this.combat = gameObject.AddComponent<PlayerCombat>().Init(playerInput,targetMask,hitboxRadius);
-        this.movement = gameObject.AddComponent<PlayerMovement>().Init(playerInput,acceleration,deceleration,rotationSpeed);
-        this.health = GetComponentInChildren<EntityHealth>();
+        this.combat.Init(playerInput,targetMask,hitboxRadius);
+        this.movement.Init(playerInput,acceleration,deceleration,rotationSpeed);
 
+        overlayCavnas = health.gameObject;
         playerInput.Gameplay.Enable();
-
+        
+        menu = playerInput.Gameplay.GameMenu;
+        menu.Enable();
+        menu.performed += PauseGame;
         return this;
     }
 
-    public void SaveGame()
+    private void PauseGame(InputAction.CallbackContext callback)
     {
-        gameManager.SaveGame();
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            escapeMenu.SetActive(true);
+            overlayCavnas.SetActive(false);
+
+            // pause time and audio
+            Time.timeScale = 0f;
+            AudioListener.pause = true;
+        }
+
+        else
+        {
+            escapeMenu.SetActive(false);
+            overlayCavnas.SetActive(true);
+
+            // resume time and audio
+            if (Time.timeScale == 0f)
+            {
+                Time.timeScale = 1.0f;
+                AudioListener.pause = false;
+            }
+        }
     }
-
-
-   // private void OnEnable()
-   // {
-   //     playerInput.Gameplay.Enable();
-   // }
 
     private void OnDisable()
     {
         playerInput.Gameplay.Disable();
+        menu.Disable();
     }
 
 }
