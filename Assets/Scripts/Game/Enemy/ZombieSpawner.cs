@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 public class ZombieSpawner : MonoBehaviour
 {
+    private GameManager gameManager;
 
     // numbre of zombies to spawn
     [SerializeField]
@@ -28,8 +29,10 @@ public class ZombieSpawner : MonoBehaviour
     private LayerMask targetMask;
 
 
-    public void NewGameSpawn()
+    public void NewGameSpawn(GameManager gameManager)
     {
+        this.gameManager = gameManager;
+
         if (waypointLists.Length >= 1 && spawnNumber > 0)
         {
             {
@@ -66,8 +69,10 @@ public class ZombieSpawner : MonoBehaviour
         SaveLoadSystem.SaveZombies();
     }
 
-    public void LoadZombies()
+    public void LoadZombies(GameManager gameManager)
     {
+        this.gameManager = gameManager;
+
         List<ZombieData> zombieDataList = SaveLoadSystem.loadZombies();
 
         foreach(ZombieData data in zombieDataList)
@@ -151,6 +156,11 @@ public class ZombieSpawner : MonoBehaviour
     {
         zombies.Remove(zombie);
         SaveLoadSystem.zombies = zombies;
+
+        if (zombies.Count == 0 )
+        {
+            gameManager.GameOver();
+        }
     }
 
 }

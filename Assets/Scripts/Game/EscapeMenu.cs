@@ -10,7 +10,7 @@ public class EscapeMenu : MonoBehaviour
     {
         if (gameManager == null)
         {
-            gameManager = GetComponentInParent<GameManager>();
+            gameManager = GetComponentInParent<Player>().gameManager;
         }
 
     }
@@ -21,10 +21,12 @@ public class EscapeMenu : MonoBehaviour
     }
 
 
-    public void QuitGame()
+    public void ReturnToMenu()
     {
-        Debug.Log("Quit");
-        //TODO return to menu
-        //Application.Quit();
+        // resume time
+        Time.timeScale = 1.0f;
+        AudioListener.pause = false;
+
+        gameManager.ReturnToMenu();
     }
 }

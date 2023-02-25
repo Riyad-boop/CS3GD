@@ -19,7 +19,7 @@ public class PlayerSpawner : MonoBehaviour
     [SerializeField]
     private GameObject playerPrefab;
 
-    private Player player;
+    public Player player;
 
     private Player SpawnPlayer(int level, GameManager gameManager)
     {

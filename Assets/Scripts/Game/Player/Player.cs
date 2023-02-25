@@ -11,18 +11,17 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject escapeMenu;
 
-    //variables saved to file
-    public int level;
-
     // reference variables 
     private PlayerInput playerInput;
 
-    [Header("Combat")]
-    //varaibles for combat
-    [SerializeField]
-    private LayerMask targetMask;
-    [SerializeField]
-    private float hitboxRadius;
+    public PlayerCombat combat;
+    public EntityHealth health;
+    public PlayerMovement movement;
+
+    [Header("Components (set in script)")]
+    public GameManager gameManager;
+    public int level;     //variables saved to file
+
 
     [Header("Movement")]
     // variables for movement
@@ -33,12 +32,13 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float rotationSpeed = 5f;
 
+    [Header("Combat")]
+    //varaibles for combat
+    [SerializeField]
+    private LayerMask targetMask;
+    [SerializeField]
+    private float hitboxRadius;
 
-    public PlayerCombat combat;
-    public EntityHealth health;
-    public PlayerMovement movement;
-    [Header("Components (set in script)")]
-    public GameManager gameManager;
 
     public Player Init(int _level,LayerMask _targetMask,float _hitboxRadius , GameManager _gameManager)
     {
