@@ -57,7 +57,7 @@ public class ZombieSpawner : MonoBehaviour
                     zombie.GetComponent<ZombieSkins>().skins[zombieSkin].SetActive(true);
                     zombie.GetComponent<ZombieSkins>().zombieTypeMapIcons[zombieType].SetActive(true);
 
-                    zombie.AddComponent<Zombie>().Init(this, wayPointListIndex, waypoints, _swarmMode: false, playerPos, targetMask, _zombieType: zombieType, _zombieSkin: zombieSkin ,_hitboxRadius: 1f, _agentSpeed: 0.5f, fov_angle: 100f, fov_radius: 7f);
+                    zombie.GetComponent<Zombie>().Init(this, wayPointListIndex, waypoints, _swarmMode: false, playerPos, targetMask, _zombieType: zombieType, _zombieSkin: zombieSkin ,_hitboxRadius: 1f, _agentSpeed: 0.5f, fov_angle: 100f, fov_radius: 7f);
                     addZombieToList(zombie.GetComponent<Zombie>());
                 }
             }

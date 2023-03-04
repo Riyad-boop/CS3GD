@@ -3681,6 +3681,7 @@ GameObject:
   - component: {fileID: 2146718011842092199}
   - component: {fileID: 4939825006199758629}
   - component: {fileID: 4145521519144243701}
+  - component: {fileID: 1251042962967141392}
   m_Layer: 8
   m_Name: Zombie-CitySkins
   m_TagString: Untagged
@@ -3848,6 +3849,29 @@ MonoBehaviour:
   zombieTypeMapIcons:
   - {fileID: 6933841743888022789}
   - {fileID: 119239207461584534}
+--- !u!114 &1251042962967141392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3467058610061612010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 351ac9ef12369d44a99193af9fad9a64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityMask:
+    serializedVersion: 2
+    m_Bits: 0
+  wayPointListIndex: 0
+  target: {x: 0, y: 0, z: 0}
+  zombieType: 0
+  zombieSkin: 0
+  health: {fileID: 0}
+  isVictorious: 0
+  swarmMode: 0
+  chaseTarget: 0
 --- !u!1 &3610589932016979791
 GameObject:
   m_ObjectHideFlags: 0
@@ -6816,7 +6840,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &543748327057319722
 Transform:
   m_ObjectHideFlags: 0

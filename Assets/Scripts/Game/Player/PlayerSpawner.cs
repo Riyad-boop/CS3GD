@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour
@@ -13,7 +12,6 @@ public class PlayerSpawner : MonoBehaviour
     [SerializeField]
     public ZombieSpawner zombieSpawner;
 
-    public FollowPlayer MainCam;
     public FollowPlayer MinimapCam;
 
     [SerializeField]
@@ -29,7 +27,6 @@ public class PlayerSpawner : MonoBehaviour
         player.Init(_level: level, targetMask, hitboxRadius, gameManager);
 
         //add player ref to cameras
-        MainCam.player = playerGameObject.transform;
         MinimapCam.player = playerGameObject.transform;
 
         //add player ref to zombie spawner

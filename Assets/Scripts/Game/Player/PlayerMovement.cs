@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -13,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     // variables to store player input for movement
     Vector2 currentMovementInput;
     Vector3 currentMovement;
+    private Vector3 moveDirection;
     bool isMovementPressed;
 
     [SerializeField]
@@ -25,13 +27,20 @@ public class PlayerMovement : MonoBehaviour
 
     //variables for rotation
     [SerializeField]
+    private Transform cam;
+    [SerializeField]
     private float rotationSpeed = 5f;
+    private float rotationSmoothTime = 0.1f;
 
     public PlayerMovement Init(PlayerInput _playerInput, float _acceleration, float _deceleration, float _rotationSpeed)
     {
         this.playerInput = _playerInput;
         this.animator= GetComponent<Animator>();
         this.characterController = GetComponent<CharacterController>();
+        this.acceleration= _acceleration;
+        this.deceleration= _deceleration;
+        this.rotationSpeed= _rotationSpeed;
+
         velocityHash = Animator.StringToHash("Velocity");
 
         // handling inputs for keydown
@@ -52,21 +61,39 @@ public class PlayerMovement : MonoBehaviour
         isMovementPressed = currentMovement.x != 0 || currentMovement.z != 0;
     }
 
+    //private void handleRotation()
+    //{
+    //    Vector3 lookAtPos;
+    //    lookAtPos.x = currentMovement.x;
+    //    lookAtPos.y = 0f;
+    //    lookAtPos.z = currentMovement.z;
+    //
+    //    Quaternion currentRotation = transform.rotation;
+    //
+    //    if (isMovementPressed)
+    //    {
+    //        Quaternion targetRotation = Quaternion.LookRotation(lookAtPos);
+    //        transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
+    //    }
+    // 
+    //}
+
     private void handleRotation()
     {
-        Vector3 lookAtPos;
-        lookAtPos.x = currentMovement.x;
-        lookAtPos.y = 0f;
-        lookAtPos.z = currentMovement.z;
 
-        Quaternion currentRotation = transform.rotation;
+        float targetAngle = Mathf.Atan2(currentMovement.x, currentMovement.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref rotationSpeed, rotationSmoothTime);
 
         if (isMovementPressed)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(lookAtPos);
-            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(0, angle, 0);
+            moveDirection = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
         }
-     
+        else
+        {
+            moveDirection = Vector3.zero;
+        }
+
     }
 
     private void handleAnimation()
@@ -102,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
     {
         handleAnimation();
         handleRotation();
-        characterController.Move(currentMovement * velocity * Time.deltaTime);
+        characterController.Move(moveDirection * velocity * Time.deltaTime);
     }
 
 }

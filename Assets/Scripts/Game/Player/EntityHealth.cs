@@ -70,5 +70,6 @@ public class EntityHealth : MonoBehaviour
     private void Update()
     {
         transform.rotation = Quaternion.LookRotation(transform.position - cam.transform.position);
+        
     }
 }
