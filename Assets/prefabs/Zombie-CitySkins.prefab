@@ -3681,6 +3681,8 @@ GameObject:
   - component: {fileID: 2146718011842092199}
   - component: {fileID: 4939825006199758629}
   - component: {fileID: 4145521519144243701}
+  - component: {fileID: 1767470859102861518}
+  - component: {fileID: 4972663050568909411}
   m_Layer: 8
   m_Name: Zombie-CitySkins
   m_TagString: Untagged
@@ -3848,6 +3850,119 @@ MonoBehaviour:
   zombieTypeMapIcons:
   - {fileID: 6933841743888022789}
   - {fileID: 119239207461584534}
+--- !u!114 &1767470859102861518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3467058610061612010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba076f7af5c1a544d9750a3406f4d4b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackSound: {fileID: 8300000, guid: 0ca7c3925b8e5d943aefe496477faffc, type: 3}
+  roarSound: {fileID: 8300000, guid: 94aaeb9b9556fc04da66d464bd217424, type: 3}
+  deathSound: {fileID: 8300000, guid: cb9148946caf68d44af566e3a389207d, type: 3}
+  hordeSound: {fileID: 8300000, guid: 0c012246d4b2ebd4ba1389c1220e29a0, type: 3}
+  moanSound: {fileID: 8300000, guid: 86e182e729003ec46961a5a5479615af, type: 3}
+--- !u!82 &4972663050568909411
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3467058610061612010}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3610589932016979791
 GameObject:
   m_ObjectHideFlags: 0
@@ -9630,14 +9745,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6baf3a1cf78b2af4289745a7033f4a21, type: 3}
---- !u!4 &8980370447214847796 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5607157104298780086, guid: 6baf3a1cf78b2af4289745a7033f4a21, type: 3}
-  m_PrefabInstance: {fileID: 3562401159041860226}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6933841743888022789 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5857429045886140295, guid: 6baf3a1cf78b2af4289745a7033f4a21, type: 3}
+  m_PrefabInstance: {fileID: 3562401159041860226}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8980370447214847796 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5607157104298780086, guid: 6baf3a1cf78b2af4289745a7033f4a21, type: 3}
   m_PrefabInstance: {fileID: 3562401159041860226}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5045955735830831165
@@ -9701,13 +9816,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba3fee2d17318af4d9021b77d7a2d346, type: 3}
---- !u!4 &2107337653129815207 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6573023928360436890, guid: ba3fee2d17318af4d9021b77d7a2d346, type: 3}
-  m_PrefabInstance: {fileID: 5045955735830831165}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &119239207461584534 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5161487379344744107, guid: ba3fee2d17318af4d9021b77d7a2d346, type: 3}
+  m_PrefabInstance: {fileID: 5045955735830831165}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2107337653129815207 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6573023928360436890, guid: ba3fee2d17318af4d9021b77d7a2d346, type: 3}
   m_PrefabInstance: {fileID: 5045955735830831165}
   m_PrefabAsset: {fileID: 0}

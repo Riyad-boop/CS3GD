@@ -9,6 +9,7 @@ public class EnemyCombat : MonoBehaviour
     private Animator animator;
     private LayerMask targetMask;
     private Zombie parent;
+    private ZombieAudio zombieAudio;
 
     public EnemyCombat Init(Animator _anim, LayerMask _targetMask, float _hitboxRadius, Zombie _parent)
     {
@@ -16,6 +17,7 @@ public class EnemyCombat : MonoBehaviour
         targetMask = _targetMask;
         hitboxRadius = _hitboxRadius;
         parent = _parent;
+        zombieAudio = GetComponent<ZombieAudio>();
         return this;
     }
 
@@ -36,6 +38,7 @@ public class EnemyCombat : MonoBehaviour
     public IEnumerator Attack()
     {
         animator.SetTrigger("Attack");
+        zombieAudio.PlayAttackSound();
         //wait one second for animation to play then call the damage player function 
         yield return new WaitForSeconds(1);
         DamageEntity(5);

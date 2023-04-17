@@ -52,10 +52,10 @@ public class EntityHealth : MonoBehaviour
         }
         else
         {
-            PlayerMovement player_entity = GetComponentInParent<PlayerMovement>();
+            Player player_entity = GetComponentInParent<Player>();
             if (player_entity != null)
             {
-                player_entity.enabled = false;
+                player_entity.handleDeath();
             }
         }
 

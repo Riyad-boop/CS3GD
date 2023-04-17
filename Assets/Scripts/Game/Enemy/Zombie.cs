@@ -36,6 +36,8 @@ public class Zombie : MonoBehaviour
     public bool chaseTarget = false;
     private bool screamCooldown = false;
 
+    private ZombieAudio zombieAudio;
+
     /// <summary>
     /// Constructor function for Zombies
     /// </summary>
@@ -75,6 +77,8 @@ public class Zombie : MonoBehaviour
         health = GetComponentInChildren<EntityHealth>();
 
         entityMask = LayerMask.GetMask("Enemy");
+
+        zombieAudio = GetComponent<ZombieAudio>();
         return this;
     }
 
@@ -143,6 +147,7 @@ public class Zombie : MonoBehaviour
         //stop the agent from moving 
         agent.isStopped = true;
 
+        zombieAudio.PlayDeathSound();
         StartCoroutine(Despawn());
         isAlive = false;
         spawner.removeZombieFromList(this);
@@ -174,8 +179,10 @@ public class Zombie : MonoBehaviour
     {
         animator.SetTrigger("Scream");
         screamCooldown = true; 
+        zombieAudio.PlayRoarSound();
         yield return new WaitForSeconds(3);
         AlertNearbyZombies();
+        zombieAudio.PlayHordeSound();
         swarmMode = true;
         //chaseTarget = true;
         screamCooldown = false;

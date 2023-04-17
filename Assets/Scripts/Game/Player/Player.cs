@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     private GameObject overlayCavnas;
     [SerializeField]
     private GameObject escapeMenu;
+    [SerializeField]
+    private GameObject gameOverMenu;
 
     // reference variables 
     private PlayerInput playerInput;
@@ -39,6 +41,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float hitboxRadius;
 
+    private PlayerAudio playerAudio;
+
 
     public Player Init(int _level,LayerMask _targetMask,float _hitboxRadius , GameManager _gameManager)
     {
@@ -56,6 +60,8 @@ public class Player : MonoBehaviour
         menu = playerInput.Gameplay.GameMenu;
         menu.Enable();
         menu.performed += PauseGame;
+
+        playerAudio = GetComponent<PlayerAudio>();
         return this;
     }
 
@@ -91,6 +97,14 @@ public class Player : MonoBehaviour
     {
         playerInput.Gameplay.Disable();
         menu.Disable();
+    }
+
+    public void handleDeath()
+    {
+        movement.enabled= false;
+        playerAudio.PlayDeathSound();
+        gameOverMenu.SetActive(true);
+        escapeMenu = null;
     }
 
 }
