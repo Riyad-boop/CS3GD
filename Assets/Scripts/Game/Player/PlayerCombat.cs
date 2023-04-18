@@ -93,6 +93,12 @@ public class PlayerCombat : MonoBehaviour
 
     }
 
+    public void setKillCount(int kills)
+    {
+        killCount = kills;
+        setKillCountText();
+    }
+
     public void setKillCountText()
     {
         killCountText.text = killCount.ToString();

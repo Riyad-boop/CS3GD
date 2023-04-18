@@ -159,7 +159,7 @@ public class ZombieSpawner : MonoBehaviour
 
         if (zombies.Count == 0 )
         {
-            gameManager.GameOver();
+            gameManager.LevelComplete();
         }
     }
 

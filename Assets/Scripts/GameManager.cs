@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject GameOverMenu;
+    public GameObject LevelCompleteMenu;
     public int score;
 
     private ZombieSpawner enemySpawner;
@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
         if(SceneManager.GetActiveScene().name == "Test_Level")
         {
             playerSpawner = GameObject.FindGameObjectWithTag("PlayerSpawner").GetComponent<PlayerSpawner>();
-            playerSpawner.SpawnNewPlayer(this);
+            playerSpawner.SpawnNewPlayer(3,0,this);
             enemySpawner = GameObject.FindGameObjectWithTag("EnemySpawner").GetComponent<ZombieSpawner>();
             enemySpawner.NewGameSpawn(this);
         }
@@ -66,9 +66,10 @@ public class GameManager : MonoBehaviour
     {
         AsyncOperation sceneLoader;
 
-        sceneLoader = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + level);
-  
-        while(!sceneLoader.isDone)
+        //sceneLoader = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + level);
+        sceneLoader = SceneManager.LoadSceneAsync(level);
+
+        while (!sceneLoader.isDone)
         {
             yield return null;
         }
@@ -78,7 +79,7 @@ public class GameManager : MonoBehaviour
         if (newGame)
         {
             playerSpawner = GameObject.FindGameObjectWithTag("PlayerSpawner").GetComponent<PlayerSpawner>();
-            playerSpawner.SpawnNewPlayer(this);
+            playerSpawner.SpawnNewPlayer(level,score,this);
             enemySpawner = GameObject.FindGameObjectWithTag("EnemySpawner").GetComponent<ZombieSpawner>();
             enemySpawner.NewGameSpawn(this);
         }
@@ -119,18 +120,20 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void GameOver()
+    public void LevelComplete()
     {
         // pause game
         Time.timeScale = 0f;
         AudioListener.pause = false;
-        GameOverMenu.SetActive(true);
-
+        score = playerSpawner.player.combat.killCount; //TODO +1
+        LevelCompleteMenu.SetActive(true);
     }
 
     public void NextLevel()
     {
-
+        StartCoroutine(LoadGameScene(2, true));
+        LevelCompleteMenu.SetActive(false);
+        Time.timeScale = 1.0f;
     }
 
     public void SaveScore()
@@ -138,9 +141,9 @@ public class GameManager : MonoBehaviour
         score = playerSpawner.player.combat.killCount;
 
         //load score scene
-        StartCoroutine(LoadScene(2));
+        StartCoroutine(LoadScene(3));
 
-        GameOverMenu.SetActive(false);
+        LevelCompleteMenu.SetActive(false);
 
     }
 

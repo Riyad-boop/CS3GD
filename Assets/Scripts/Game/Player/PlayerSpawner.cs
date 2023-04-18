@@ -21,12 +21,12 @@ public class PlayerSpawner : MonoBehaviour
 
     public Player player;
 
-    private Player SpawnPlayer(int level, GameManager gameManager)
+    private Player SpawnPlayer(int level, int kills, GameManager gameManager)
     {
         //spawn player 
         GameObject playerGameObject = Instantiate(playerPrefab, transform);
         player = playerGameObject.GetComponent<Player>();
-        player.Init(_level: level, targetMask, hitboxRadius, gameManager);
+        player.Init(_level: level, kills, targetMask, hitboxRadius, gameManager);
 
         //add player ref to cameras
         MainCam.player = playerGameObject.transform;
@@ -39,9 +39,9 @@ public class PlayerSpawner : MonoBehaviour
         return player;
     }
 
-    public void SpawnNewPlayer(GameManager gameManager)
+    public void SpawnNewPlayer(int level, int kills, GameManager gameManager)
     {
-        player = SpawnPlayer(1, gameManager);
+        player = SpawnPlayer(level,kills ,gameManager);
     }
 
     public void SavePlayer()
@@ -53,15 +53,11 @@ public class PlayerSpawner : MonoBehaviour
     {
         PlayerData data = SaveLoadSystem.LoadPlayer();
 
-        player = SpawnPlayer(data.level, gameManager);
+        player = SpawnPlayer(data.level, data.killCount, gameManager);
 
         // set the current health and update the healthbar
         player.health.currentHealth = data.health;
         player.health.setHealhBar();
-
-        //TODO update counter in UI
-        player.combat.killCount = data.killCount;
-        player.combat.setKillCountText();
 
         // load the player position
         Vector3 loadPosition;

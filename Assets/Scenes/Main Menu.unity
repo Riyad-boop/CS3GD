@@ -785,6 +785,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 534198064362187656, guid: 228ec5f135a9fb240a28105a69d3d6c9, type: 3}
+      propertyPath: LevelCompleteMenu
+      value: 
+      objectReference: {fileID: 1644785645}
     - target: {fileID: 534198064362187657, guid: 228ec5f135a9fb240a28105a69d3d6c9, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -2159,3 +2163,8 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624162760}
   m_CullTransparentMesh: 1
+--- !u!1 &1644785645 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 534198063714481648, guid: 228ec5f135a9fb240a28105a69d3d6c9, type: 3}
+  m_PrefabInstance: {fileID: 497781597}
+  m_PrefabAsset: {fileID: 0}

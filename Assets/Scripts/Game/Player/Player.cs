@@ -44,7 +44,7 @@ public class Player : MonoBehaviour
     private PlayerAudio playerAudio;
 
 
-    public Player Init(int _level,LayerMask _targetMask,float _hitboxRadius , GameManager _gameManager)
+    public Player Init(int _level,int kills,LayerMask _targetMask,float _hitboxRadius , GameManager _gameManager)
     {
         this.level = _level;
         this.targetMask = _targetMask;
@@ -60,6 +60,9 @@ public class Player : MonoBehaviour
         menu = playerInput.Gameplay.GameMenu;
         menu.Enable();
         menu.performed += PauseGame;
+
+        //set kill count
+        this.combat.setKillCount(kills);
 
         playerAudio = GetComponent<PlayerAudio>();
         return this;
