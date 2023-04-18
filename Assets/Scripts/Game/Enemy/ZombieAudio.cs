@@ -41,7 +41,7 @@ public class ZombieAudio : MonoBehaviour
 
     public void PlayRoarSound()
     {
-        audioSource.volume = 0.5f;
+        audioSource.volume = 0.45f;
         audioSource.PlayOneShot(roarSound);
 
     }

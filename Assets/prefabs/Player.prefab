@@ -7233,7 +7233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 10
+  currentHealth: 100
   spriteHealthBar: {fileID: 5499672115170392724}
 --- !u!1 &7074615761193207286
 GameObject:
