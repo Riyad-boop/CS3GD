@@ -12,7 +12,6 @@ public class PlayerCombat : MonoBehaviour
     private PlayerInput playerInput;
     private Animator animator;
     private bool attackCooldown = false;
-    private PlayerAudio playerAudio;
 
     //playerData variables
     public int killCount;
@@ -26,7 +25,6 @@ public class PlayerCombat : MonoBehaviour
         this.targetMask = _targetMask;
         this.hitboxRadius = _hitboxRadius;
         setKillCountText();
-        playerAudio = GetComponent<PlayerAudio>();
         return this;
     }
 
@@ -53,7 +51,6 @@ public class PlayerCombat : MonoBehaviour
         animator.SetTrigger("Attack");
         //wait one second for animation to play then call the damage player function 
         yield return new WaitForSeconds(1);
-        playerAudio.PlayAttackSound();
         DamageEntity(20);
         yield return new WaitForSeconds(1);
         attackCooldown = false;

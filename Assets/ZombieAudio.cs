@@ -7,8 +7,9 @@ public class ZombieAudio : MonoBehaviour
     public AudioClip attackSound;
     public AudioClip roarSound;
     public AudioClip deathSound;
-    public AudioClip hordeSound;
     public AudioClip moanSound;
+    public AudioClip[] growlSound;
+    public AudioClip[] walkSound;
     AudioSource audioSource;
 
 
@@ -18,9 +19,8 @@ public class ZombieAudio : MonoBehaviour
     }
     public void PlayAttackSound()
     {
-        audioSource.clip = attackSound;
-        audioSource.volume = 0.7f;
-        audioSource.Play();
+        audioSource.volume = 0.25f;
+        audioSource.PlayOneShot(attackSound);
 
     }
 
@@ -32,31 +32,36 @@ public class ZombieAudio : MonoBehaviour
 
     public IEnumerator DeathSounds()
     {
-        audioSource.clip = deathSound;
-        audioSource.Play();
+        audioSource.PlayOneShot(deathSound);
         yield return new WaitForSeconds(1);
-        PlayHordeSound();
+        PlayMoanSound();
+
 
     }
 
     public void PlayRoarSound()
     {
-        audioSource.clip = roarSound;
         audioSource.volume = 0.5f;
-        audioSource.Play();
+        audioSource.PlayOneShot(roarSound);
 
     }
 
-    public void PlayHordeSound()
-    {
-        audioSource.clip = roarSound;
-        audioSource.volume = 0.6f;
-        audioSource.Play();
-
-    }
     public void PlayMoanSound()
     {
-        audioSource.clip = moanSound;
-        audioSource.Play();
+        audioSource.PlayOneShot(moanSound);
+    }
+
+    public void PlayWalkSound()
+    {
+        audioSource.volume = 0.15f;
+        audioSource.PlayOneShot(walkSound[Random.Range(0, walkSound.Length)]);
+       
+    }
+
+    public void PlayGrowlSound()
+    {
+        audioSource.volume = 0.5f;
+        audioSource.PlayOneShot(growlSound[Random.Range(0, growlSound.Length)]);
+
     }
 }

@@ -6,7 +6,7 @@ public class PlayerAudio : MonoBehaviour
 {
     public AudioClip attackSound;
     public AudioClip deathSound;
-    public AudioClip walkSound;
+    public AudioClip[] walkSound;
     AudioSource audioSource;
 
 
@@ -17,17 +17,22 @@ public class PlayerAudio : MonoBehaviour
 
     public void PlayAttackSound()
     {
-        audioSource.clip = attackSound;
-        audioSource.volume = 0.7f;
-        audioSource.Play();
+        audioSource.volume = 0.5f;
+        audioSource.PlayOneShot(attackSound);
 
     }
 
     public void PlayDeathSound()
     {
-        audioSource.clip = deathSound;
-        audioSource.Play();
+        audioSource.PlayOneShot(deathSound);
 
+    }
+
+    public void PlayWalkSound()
+    {
+        audioSource.volume = 0.8f;
+        audioSource.PlayOneShot(walkSound[Random.Range(0, walkSound.Length)]);
+       
     }
 
 

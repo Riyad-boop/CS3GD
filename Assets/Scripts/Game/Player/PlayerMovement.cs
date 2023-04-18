@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private float rotationSpeed = 5f;
 
+    private PlayerAudio playerAudio;
+
     public PlayerMovement Init(PlayerInput _playerInput, float _acceleration, float _deceleration, float _rotationSpeed)
     {
         this.playerInput = _playerInput;
@@ -40,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
         playerInput.Gameplay.Move.canceled += onMovementInput;
         // handling inputs for controller
         playerInput.Gameplay.Move.performed += onMovementInput;
+
+        playerAudio = GetComponent<PlayerAudio>();
 
         return this;
     }

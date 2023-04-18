@@ -3865,8 +3865,16 @@ MonoBehaviour:
   attackSound: {fileID: 8300000, guid: 0ca7c3925b8e5d943aefe496477faffc, type: 3}
   roarSound: {fileID: 8300000, guid: 94aaeb9b9556fc04da66d464bd217424, type: 3}
   deathSound: {fileID: 8300000, guid: cb9148946caf68d44af566e3a389207d, type: 3}
-  hordeSound: {fileID: 8300000, guid: 0c012246d4b2ebd4ba1389c1220e29a0, type: 3}
   moanSound: {fileID: 8300000, guid: 86e182e729003ec46961a5a5479615af, type: 3}
+  growlSound:
+  - {fileID: 8300000, guid: 8dc38521aef871f43a57e102da20029e, type: 3}
+  - {fileID: 8300000, guid: 940986edbafad574fb9fcd87eeaf756e, type: 3}
+  walkSound:
+  - {fileID: 8300000, guid: 7c04dfb713fb54b45915c739fbba3ea0, type: 3}
+  - {fileID: 8300000, guid: b84c488fc1585484bbbe06b7d2a45d0c, type: 3}
+  - {fileID: 8300000, guid: b6ae3cf02370caf4e83ed48f161a5455, type: 3}
+  - {fileID: 8300000, guid: e153f03611dfa6f4cbe3977c731eab21, type: 3}
+  - {fileID: 8300000, guid: 1db4ae3413f0e564da9bb86c41cc6a79, type: 3}
 --- !u!82 &4972663050568909411
 AudioSource:
   m_ObjectHideFlags: 0

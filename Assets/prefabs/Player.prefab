@@ -1770,7 +1770,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.09549457
+  m_Radius: 0.06
   m_Center: {x: 0, y: 0.09549457, z: 0}
 --- !u!54 &7564696899222631015
 Rigidbody:
@@ -3090,7 +3090,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackSound: {fileID: 8300000, guid: 6847e56ada9e928418cae83df1632ee6, type: 3}
   deathSound: {fileID: 8300000, guid: f778daa1e33f34f4189f433eaf25a00e, type: 3}
-  walkSound: {fileID: 8300000, guid: 2fa9570f7dbc789498e5c7b266b3f7ad, type: 3}
+  walkSound:
+  - {fileID: 8300000, guid: 7c04dfb713fb54b45915c739fbba3ea0, type: 3}
+  - {fileID: 8300000, guid: b84c488fc1585484bbbe06b7d2a45d0c, type: 3}
+  - {fileID: 8300000, guid: b6ae3cf02370caf4e83ed48f161a5455, type: 3}
+  - {fileID: 8300000, guid: e153f03611dfa6f4cbe3977c731eab21, type: 3}
+  - {fileID: 8300000, guid: 1db4ae3413f0e564da9bb86c41cc6a79, type: 3}
 --- !u!82 &3669906718352865030
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7228,7 +7233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 100
+  currentHealth: 10
   spriteHealthBar: {fileID: 5499672115170392724}
 --- !u!1 &7074615761193207286
 GameObject:

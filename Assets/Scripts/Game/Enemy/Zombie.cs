@@ -110,6 +110,8 @@ public class Zombie : MonoBehaviour
 
     public void Victory()
     {
+        zombieAudio.PlayGrowlSound();
+
         chaseTarget = false;
         swarmMode = false;
 
@@ -179,10 +181,8 @@ public class Zombie : MonoBehaviour
     {
         animator.SetTrigger("Scream");
         screamCooldown = true; 
-        zombieAudio.PlayRoarSound();
         yield return new WaitForSeconds(3);
         AlertNearbyZombies();
-        zombieAudio.PlayHordeSound();
         swarmMode = true;
         //chaseTarget = true;
         screamCooldown = false;

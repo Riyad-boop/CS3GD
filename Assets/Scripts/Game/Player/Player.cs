@@ -103,8 +103,9 @@ public class Player : MonoBehaviour
     {
         movement.enabled= false;
         playerAudio.PlayDeathSound();
+        playerInput.Gameplay.Disable();
+        menu.Disable();
         gameOverMenu.SetActive(true);
-        escapeMenu = null;
     }
 
 }
