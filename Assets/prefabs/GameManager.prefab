@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &534198063714481651
 RectTransform:
   m_ObjectHideFlags: 0
@@ -278,7 +278,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelCompleteMenu: {fileID: 534198063714481648}
+  NextLevelBtn: {fileID: 5885367442148009646}
   score: 0
+  finalLevelIndex: 2
 --- !u!1 &534198064463430776
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public GameObject LevelCompleteMenu;
+    public GameObject NextLevelBtn;
     public int score;
+    public int finalLevelIndex;
 
     private ZombieSpawner enemySpawner;
     private PlayerSpawner playerSpawner;
@@ -126,7 +128,14 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
         AudioListener.pause = false;
         score = playerSpawner.player.combat.killCount; //TODO +1
+
         LevelCompleteMenu.SetActive(true);
+        if (SceneManager.GetActiveScene().buildIndex == finalLevelIndex)
+        {
+            NextLevelBtn.SetActive(false);
+        }
+       
+        
     }
 
     public void NextLevel()
