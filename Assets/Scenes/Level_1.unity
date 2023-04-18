@@ -1322,6 +1322,7 @@ MonoBehaviour:
   MainCam: {fileID: 1686526582}
   MinimapCam: {fileID: 1403533649}
   playerPrefab: {fileID: 1114581097592348987, guid: 8690f63236553bd4bb8024664afff80f, type: 3}
+  player: {fileID: 0}
 --- !u!1 &1730565290
 GameObject:
   m_ObjectHideFlags: 0
