@@ -1982,6 +1982,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 534198064362187657, guid: 228ec5f135a9fb240a28105a69d3d6c9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 534198064362187659, guid: 228ec5f135a9fb240a28105a69d3d6c9, type: 3}
       propertyPath: m_RootOrder
       value: 7
