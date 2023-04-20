@@ -15,13 +15,16 @@ public class GameManager : MonoBehaviour
 
     private AudioSource audioSource;
 
+    [SerializeField]
+    private bool testMode = false;
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         DontDestroyOnLoad(this.gameObject);
 
         //This is only for test level
-        if(SceneManager.GetActiveScene().name == "Test_Level")
+        if(testMode)
         {
             playerSpawner = GameObject.FindGameObjectWithTag("PlayerSpawner").GetComponent<PlayerSpawner>();
             playerSpawner.SpawnNewPlayer(3,0,this);

@@ -36,29 +36,32 @@ public class ZombieSpawner : MonoBehaviour
         if (waypointLists.Length >= 1 && spawnNumber > 0)
         {
             {
-                for (int i = 0; i < spawnNumber; i++)
+                for (int wayPointListIndex = 0; wayPointListIndex < waypointLists.Length; wayPointListIndex++)
                 {
-                    int wayPointListIndex = 0;
-                    Transform[] waypoints = getWaypointLocations(waypointLists[wayPointListIndex]);
+                    for (int i = 0; i < spawnNumber; i++)
+                    {
 
-                    //generate random zombie type (0 or 1)
-                    int zombieType = Random.Range(0, 2);
-                    //int zombieType = 0;
+                        Transform[] waypoints = getWaypointLocations(waypointLists[wayPointListIndex]);
 
-                    //select a random skin (0-20)
-                    int zombieSkin = Random.Range(0, 20);
+                        //generate random zombie type (0 or 1)
+                        int zombieType = Random.Range(0, 2);
+                        //int zombieType = 0;
 
-                    //generate random number to spawn enemy
-                    Transform spawnPoint = waypoints[Random.Range(0, waypoints.Length)];
+                        //select a random skin (0-20)
+                        int zombieSkin = Random.Range(0, 20);
 
-                    GameObject zombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
+                        //generate random number to spawn enemy at a random waypoint location
+                        Transform spawnPoint = waypoints[Random.Range(0, waypoints.Length)];
 
-                    //apply skin and icon
-                    zombie.GetComponent<ZombieSkins>().skins[zombieSkin].SetActive(true);
-                    zombie.GetComponent<ZombieSkins>().zombieTypeMapIcons[zombieType].SetActive(true);
+                        GameObject zombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
-                    zombie.AddComponent<Zombie>().Init(this, wayPointListIndex, waypoints, _swarmMode: false, playerPos, targetMask, _zombieType: zombieType, _zombieSkin: zombieSkin ,_hitboxRadius: 1f, _agentSpeed: 0.5f, fov_angle: 100f, fov_radius: 7f);
-                    addZombieToList(zombie.GetComponent<Zombie>());
+                        //apply skin and icon
+                        zombie.GetComponent<ZombieSkins>().skins[zombieSkin].SetActive(true);
+                        zombie.GetComponent<ZombieSkins>().zombieTypeMapIcons[zombieType].SetActive(true);
+
+                        zombie.AddComponent<Zombie>().Init(this, wayPointListIndex, waypoints, _swarmMode: false, playerPos, targetMask, _zombieType: zombieType, _zombieSkin: zombieSkin, _hitboxRadius: 1f, _agentSpeed: 0.5f, fov_angle: 100f, fov_radius: 7f);
+                        addZombieToList(zombie.GetComponent<Zombie>());
+                    }
                 }
             }
         }
