@@ -41,6 +41,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Throttle"",
+                    ""type"": ""Value"",
+                    ""id"": ""2817430e-0670-4fbb-addf-5b36c8eafc3f"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -120,6 +128,39 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""action"": ""GameMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""eb75b462-a685-4e10-8709-715a15a9ae50"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throttle"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""2907751d-8d1d-4047-b8e0-900a5791a81e"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throttle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""0830d593-95d5-443b-ab07-38a9ef56c50d"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throttle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -131,6 +172,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
         m_Gameplay_GameMenu = m_Gameplay.FindAction("GameMenu", throwIfNotFound: true);
+        m_Gameplay_Throttle = m_Gameplay.FindAction("Throttle", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -183,6 +225,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Move;
     private readonly InputAction m_Gameplay_Attack;
     private readonly InputAction m_Gameplay_GameMenu;
+    private readonly InputAction m_Gameplay_Throttle;
     public struct GameplayActions
     {
         private @PlayerInput m_Wrapper;
@@ -190,6 +233,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_Gameplay_Move;
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
         public InputAction @GameMenu => m_Wrapper.m_Gameplay_GameMenu;
+        public InputAction @Throttle => m_Wrapper.m_Gameplay_Throttle;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -208,6 +252,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @GameMenu.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGameMenu;
                 @GameMenu.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGameMenu;
                 @GameMenu.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGameMenu;
+                @Throttle.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrottle;
+                @Throttle.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrottle;
+                @Throttle.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrottle;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -221,6 +268,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @GameMenu.started += instance.OnGameMenu;
                 @GameMenu.performed += instance.OnGameMenu;
                 @GameMenu.canceled += instance.OnGameMenu;
+                @Throttle.started += instance.OnThrottle;
+                @Throttle.performed += instance.OnThrottle;
+                @Throttle.canceled += instance.OnThrottle;
             }
         }
     }
@@ -230,5 +280,6 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnGameMenu(InputAction.CallbackContext context);
+        void OnThrottle(InputAction.CallbackContext context);
     }
 }

@@ -31,7 +31,7 @@ public class BuildingCreator : MonoBehaviour
             //then we can reset the position
             spawnpoint.rotation = new Quaternion(0, 0, 0, 0);
         }
-
+     
     }
 
     void Build(Transform spawnPoint)

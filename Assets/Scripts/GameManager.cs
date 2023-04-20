@@ -13,8 +13,11 @@ public class GameManager : MonoBehaviour
     private ZombieSpawner enemySpawner;
     private PlayerSpawner playerSpawner;
 
+    private AudioSource audioSource;
+
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         DontDestroyOnLoad(this.gameObject);
 
         //This is only for test level
@@ -30,9 +33,16 @@ public class GameManager : MonoBehaviour
 
     public void NewGame()
     {
-        StartCoroutine(LoadGameScene(1,true));
-
+        StartCoroutine(LoadScene(1));
+        //destroy this object after the cutscene is reloded
+        Destroy(gameObject);
     }
+
+    public void LoadFirstLevel()
+    {
+        StartCoroutine(LoadGameScene(2, true));
+    }
+
 
     public void SaveGame()
     {
@@ -66,6 +76,7 @@ public class GameManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator LoadGameScene(int level, bool newGame)
     {
+        audioSource.Stop();
         AsyncOperation sceneLoader;
 
         //sceneLoader = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + level);
@@ -96,6 +107,7 @@ public class GameManager : MonoBehaviour
     
     private IEnumerator LoadScene(int buildIndex)
     {
+        audioSource.Stop();
         AsyncOperation sceneLoader;
         sceneLoader = SceneManager.LoadSceneAsync(buildIndex);
 
@@ -140,7 +152,7 @@ public class GameManager : MonoBehaviour
 
     public void NextLevel()
     {
-        StartCoroutine(LoadGameScene(2, true));
+        StartCoroutine(LoadGameScene(3, true));
         LevelCompleteMenu.SetActive(false);
         Time.timeScale = 1.0f;
     }
@@ -150,7 +162,7 @@ public class GameManager : MonoBehaviour
         score = playerSpawner.player.combat.killCount;
 
         //load score scene
-        StartCoroutine(LoadScene(3));
+        StartCoroutine(LoadScene(4));
 
         LevelCompleteMenu.SetActive(false);
 
