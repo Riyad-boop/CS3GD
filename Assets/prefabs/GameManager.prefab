@@ -282,6 +282,7 @@ MonoBehaviour:
   NextLevelBtn: {fileID: 5885367442148009646}
   score: 0
   finalLevelIndex: 3
+  testMode: 0
 --- !u!82 &892716485006821327
 AudioSource:
   m_ObjectHideFlags: 0
@@ -291,10 +292,10 @@ AudioSource:
   m_GameObject: {fileID: 534198064362187657}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 115b482fcbdf21341a6e460b7442bd20, type: 2}
   m_audioClip: {fileID: 8300000, guid: 4cc7d52cc464a5548bdd787938e53d30, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 1
   Mute: 0
