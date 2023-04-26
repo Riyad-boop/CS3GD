@@ -55,7 +55,7 @@ public class EntityHealth : MonoBehaviour
             Player player_entity = GetComponentInParent<Player>();
             if (player_entity != null)
             {
-                player_entity.handleDeath();
+                player_entity.HandleDeath();
             }
         }
 

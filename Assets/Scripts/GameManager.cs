@@ -144,6 +144,9 @@ public class GameManager : MonoBehaviour
         AudioListener.pause = false;
         score = playerSpawner.player.combat.killCount; //TODO +1
 
+        // disable the game over menu
+        playerSpawner.player.SetStateofgameOverMenu(false);
+
         LevelCompleteMenu.SetActive(true);
         if (SceneManager.GetActiveScene().buildIndex == finalLevelIndex)
         {

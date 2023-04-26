@@ -102,13 +102,19 @@ public class Player : MonoBehaviour
         menu.Disable();
     }
 
-    public void handleDeath()
+    public void HandleDeath()
     {
         movement.enabled= false;
         playerAudio.PlayDeathSound();
         playerInput.Gameplay.Disable();
         menu.Disable();
-        gameOverMenu.SetActive(true);
+        SetStateofgameOverMenu(true);
+  
+    }
+
+    public void SetStateofgameOverMenu(bool state)
+    {
+        gameOverMenu.SetActive(state);
     }
 
 }
