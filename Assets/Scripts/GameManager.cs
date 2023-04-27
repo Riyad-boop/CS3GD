@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject LevelCompleteMenu;
     public GameObject NextLevelBtn;
+    public GameObject SaveScoreBtn;
     public int score;
     public int finalLevelIndex;
 
@@ -142,7 +143,7 @@ public class GameManager : MonoBehaviour
         // pause game
         Time.timeScale = 0f;
         AudioListener.pause = false;
-        score = playerSpawner.player.combat.killCount; //TODO +1
+        score = playerSpawner.player.combat.killCount +1;
 
         // disable the game over menu
         playerSpawner.player.SetStateofgameOverMenu(false);
@@ -151,6 +152,7 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == finalLevelIndex)
         {
             NextLevelBtn.SetActive(false);
+            SaveScoreBtn.SetActive(true);
         }
        
         

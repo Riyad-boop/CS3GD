@@ -301,7 +301,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7779605, y: 1}
+    m_SensorSize: {x: 1.7763578, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -446,7 +446,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 406820062}
-  m_LocalRotation: {x: 0.16681507, y: 1e-45, z: -0, w: 0.9859882}
+  m_LocalRotation: {x: 0.16681509, y: 1e-45, z: -0, w: 0.9859882}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -490,7 +490,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7779605, y: 1}
+    m_SensorSize: {x: 1.7763578, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1051,6 +1051,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 997120011585374675, guid: f67229e179aeed24b900f7228214489f, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1361318442290031183, guid: f67229e179aeed24b900f7228214489f, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1135,10 +1139,42 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5854341144600792234, guid: f67229e179aeed24b900f7228214489f, type: 3}
+      propertyPath: m_fontSize
+      value: 30.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854341144600792234, guid: f67229e179aeed24b900f7228214489f, type: 3}
+      propertyPath: m_margin.w
+      value: -68.93639
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854341144600792234, guid: f67229e179aeed24b900f7228214489f, type: 3}
+      propertyPath: m_margin.x
+      value: -102.64862
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854341144600792234, guid: f67229e179aeed24b900f7228214489f, type: 3}
+      propertyPath: m_margin.y
+      value: 55.17678
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854341144600792234, guid: f67229e179aeed24b900f7228214489f, type: 3}
+      propertyPath: m_margin.z
+      value: 471.72418
+      objectReference: {fileID: 0}
+    - target: {fileID: 5854341144600792234, guid: f67229e179aeed24b900f7228214489f, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6740955057402113608, guid: f67229e179aeed24b900f7228214489f, type: 3}
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7214743860943991029, guid: f67229e179aeed24b900f7228214489f, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7368434575795627355, guid: f67229e179aeed24b900f7228214489f, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 2133259814}
     - target: {fileID: 8145044806686973287, guid: f67229e179aeed24b900f7228214489f, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1155,10 +1191,6 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 2133259814}
-    - target: {fileID: 9117917178799028513, guid: f67229e179aeed24b900f7228214489f, type: 3}
-      propertyPath: m_Volume
-      value: 0.2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f67229e179aeed24b900f7228214489f, type: 3}
 --- !u!1 &1116348835
@@ -1355,7 +1387,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7779605, y: 1}
+    m_SensorSize: {x: 1.7763578, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1997,7 +2029,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7779605, y: 1}
+    m_SensorSize: {x: 1.7763578, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

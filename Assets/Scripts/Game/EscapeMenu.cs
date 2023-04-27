@@ -12,7 +12,6 @@ public class EscapeMenu : MonoBehaviour
 
     void Awake()
     {
-        LoadEscsapeMenu();
         if (gameManager == null)
         {
             gameManager = GetComponentInParent<Player>().gameManager;
@@ -23,6 +22,11 @@ public class EscapeMenu : MonoBehaviour
     public void SaveGame()
     {
         gameManager.SaveGame();
+    }
+
+    public void SaveScore()
+    {
+        gameManager.SaveScore();
     }
 
     public void LoadOptionsMenu()

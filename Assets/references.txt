@@ -1,0 +1,29 @@
+--------------------------------------------------------------------------
+External Assests
+--------------------------------------------------------------------------
+all audio taken from https://pixabay.com/sound-effects/search/zombie/?manual_search=1&order=None
+all scene, character assets taken from synty studios
+drawing vision cone https://www.youtube.com/watch?v=luLrhoTZYD8 
+all animations from mixamo 
+keyboard control image from (http://www.keyboard-layout-editor.com/#/)
+storing highscore by using firebase realtime database
+shader wall cutout effect from https://github.com/daniel-ilett/shaders-wall-cutout
+particle FX from synty studios
+--------------------------------------------------------------------------
+
+-------------------------------------------------------------------------
+My assests/contributions for scene complexity
+--------------------------------------------------------------------------
+All Trees, Streetlights/Glow material
+Plane model
+UI elements
+Script to for modular buildings was made by myself
+terrain painting - myself
+--------------------------------------------------------------------------
+
+-------------------------------------------------------------------------
+My other contributions
+--------------------------------------------------------------------------
+All other code which has not already been referenced
+UI elements
+--------------------------------------------------------------------------
