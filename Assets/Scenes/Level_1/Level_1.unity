@@ -4242,7 +4242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fbdf8201bc355443b049f9b4e46eeb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnNumber: 5
+  spawnNumber: 4
   zombiePrefab: {fileID: 3467058610061612010, guid: 21a849ddd2c08bf49b0dafad50e8a0a1, type: 3}
   waypointLists:
   - {fileID: 331658859}
